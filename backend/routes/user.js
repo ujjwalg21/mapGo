@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const User = require('../models/userSchema');
 const Schedule = require('../models/scheduleSchema');
+const jwt = require('jsonwebtoken');
 
 router.post("/register", async (req,res)=>{
+    //req.body like userSchema
     const newUser = new User(req.body)
 
     try{
@@ -51,6 +53,7 @@ router.post('/login', async(req,res)=>{
         //find user with unique username
         //req.body = {username, password}
         //username is unique
+
         const user = await User.findOne({username:req.body.username});
 
         if(!user){
@@ -65,6 +68,13 @@ router.post('/login', async(req,res)=>{
           
         }
 
+        //calling userschema method to generate and save token
+        const token = await user.generateAuthToken();
+        res.cookie("mapgo", token,{
+            expires: new Date(Date.now() + 26000000000),
+            httpOnly: true
+        })
+        
         //send response ok
         res.status(200).json(user);
     }

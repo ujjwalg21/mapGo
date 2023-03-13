@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 //defining the shape of the document
 const userSchema = new mongoose.Schema(
@@ -11,10 +12,6 @@ const userSchema = new mongoose.Schema(
     iitkemail: {
             type:String,
             required: true
-        },
-    phone: {
-        type: Number,
-        required: true
     },
     password: {
         type: String,
@@ -23,11 +20,34 @@ const userSchema = new mongoose.Schema(
     schedule: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Schedule'
-    }
+    },
+    tokens: [
+        {
+            token: {
+                type:String,
+                required: true
+            }
+        }
+    ]
    
 }, {timestamps:true}
 );
 
+userSchema.methods.generateAuthToken = async function(){
+    try{
+        let myToken = jwt.sign({_id:this._id}, process.env.SECRET_KEY)
+
+        this.tokens = this.tokens.concat({token:myToken})
+
+        //saves token in db
+        await this.save();
+
+        return myToken;
+    }
+    catch(err){
+        console.log(err)
+    }
+}
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
