@@ -59,7 +59,6 @@ router.put('/addevent/:scheduleId', async(req,res)=>{
         console.log(err)
     })
     
-   
 })
 
 router.post('/events', async (req,res)=>{

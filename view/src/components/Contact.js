@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const Contact = () =>{
     return (
         <>
-        
+        <body className='contactbody'>
         <div className="container mt-3 "  >
         <div className="row">
         
@@ -253,7 +253,7 @@ const Contact = () =>{
             </div>
         </div>
         </div>
-
+</body>
         
         </>
     );
