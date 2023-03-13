@@ -61,8 +61,10 @@
 html{
 
   background-image: radial-gradient(#024e5f,#051625,black);
-    height: 100%;
+    min-height:100%;
+    position: relative;
     background-repeat:no-repeat;
+
 }
 
 .mapgo{
@@ -96,9 +98,10 @@ html{
 
 /* CONTACT CSS */
 body {
-  min-height: auto;
-  background: black;
+  min-height: fit-content;
+  background: transparent;
   width: 100%;
+  
 }
 
 
@@ -218,3 +221,104 @@ a{
   
 }
 
+/* LOGIN */
+
+.loginbox{
+  width: 400px;
+  
+}
+
+.signin{
+  font-size: 2.15rem;
+  padding-left: 3rem;
+  color: white;
+  font-weight: 400;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin: 0px;
+  background-color: rgb(3, 22, 27);
+  border: none;
+}
+.loginbody{
+  /* background-image: radial-gradient(#024e5f,#051625,black); */
+  height: fit-content;
+  background-repeat:no-repeat;
+  /* vertical-align: middle; */
+  
+}
+.con2{
+  height: fit-content;
+  border: none;
+}
+.card-body{
+  background-color: #012E39;
+  border: transparent;
+}
+.form-control{
+  background-color: #2B4B54;
+  border: transparent;
+  color: white;
+  width: 100%;
+
+  
+  
+}
+.input{
+  color: white;
+
+}
+.form-floating>.form-control, .form-floating>.form-control-plaintext, .form-floating>.form-select {
+  line-height: 1.25;
+  background: #2B4B54;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.button{
+  background-color: #8A9DA2;
+  height: 60px;
+  text-align: center;
+  width: 100px;
+  border-radius: 10%;
+  margin: 10px;
+  float: left;
+}
+.forgotPass {
+  color: #DD8282;
+  text-align:right ;
+  margin-right: 0px;
+  font-size: 1.2rem;
+  vertical-align: middle;
+  /* padding: 20px; */
+  text-decoration: none;
+}
+
+@media(max-width:1000px){
+  .loginbox{
+    width: 80%;
+    justify-content: center;
+  }
+  .form-control{
+    width: 92%;
+  }
+  .signin{
+    font-size: 1.75rem;
+  }
+  .form-control{
+    height: fit-content;
+  }
+  .form-floating>.form-control, .form-floating>.form-control-plaintext, .form-floating>.form-select {
+    height:25px ;
+    line-height: 1.25;
+    background: #2B4B54;
+    color: white;
+    justify-content: center;
+  }
+  .mx-auto{
+    justify-self: center;
+    justify-content: center;
+  }
+
+}

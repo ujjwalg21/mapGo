@@ -1,47 +1,60 @@
 import React, {useState} from 'react';
-import Axios from 'axios';
+// import Axios from 'axios';
 
 // import regPic from '../images/mapgo_logo.png';
-import {NavLink, useNavigate} from "react-router-dom";
+// import {NavLink, useNavigate} from "react-router-dom";
 
 const Signup = () =>{
 
+
+    
+    
+    
     //user instance for schema
     const [user,setUser] = useState({
-        username:"", email:"", phone:"", password:"", cpassword:""
+        username:"", email:"", password:"", confirmpassword:""
     });
 
     //function handleInput: sets each value to a user key
     let key, value;
     const handleInputs = (event)=>{
-        console.log(event);
-        key = event.target.username;
+        // console.log(event);
+        key = event.target.name;
         value = event.target.value;
-
+        
+        
+        
         setUser({...user, [key]:value})//react hook 
+        
     }
+    const checkEmail=()=>{
+        let email=user.email;
+        let text= email.slice(email.length-11,email.length);
+        if(text!=="@iitk.ac.in") alert("invalid emailId");
+    }
+    // const str=JSON.stringify(user);
+    // console.log(str);
 
     //function called after submit button
 
-    const navigator = useNavigate();
+    // const navigator = useNavigate();
 
     const PostData = async (event)=>{
         event.PreventDefault();///idk what this does
   
-        const {username, email, phone, password,cpassword} = user;
+        const {username, email, password,confirmpassword} = user;
+        checkEmail();
 
-        //making post request on /register like postman
         const res = await fetch("/register",{
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 username,
                 email,
-                phone,
                 password,
-                cpassword
+                confirmpassword
             })
         }).catch((err)=>{
             console.log(err);
@@ -60,47 +73,90 @@ const Signup = () =>{
         }
     }
 
-   
+    
     return (
         <>
-        <form method='POST' action='/register'>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Username</label>
-                    <input name='username' type="text" className="form-control" id="exampleInputPassword1" value={user.username} onChange={handleInputs} placeholder='naam kaa hai tumhra'/>
+    <body className="loginbody">
+        <div className="container loginbox">
+        <div className="row1">
+            <div className="mx-auto">
+                <div className="card border-0 shadow rounded-3 my-5 con2">
+                <p className="signin">Sign Up</p>
+                <div className="card-body">
+                    <br />
+                    <br />
+                    <form method='POST' action='/register'>
+                    <div className="form-floating mb-3">
+                        <input
+                        type="username"
+                        className="form-control"
+                        id="floatingUsername"
+                        name="username"
+                        placeholder="username"
+                        value={user.username}
+                        onChange={handleInputs}
+                        autoComplete="off"
+                        />
+                        <label className="input" htmlFor="floatingInput">
+                        Username
+                        </label>
+                    </div>
+                    <div className="form-floating mb-3">
+                        <input
+                        type="email"
+                        className="form-control"
+                        name='email'
+                        id="floatingEmail"
+                        placeholder="email"
+                        value={user.email}
+                        onChange={handleInputs}
+                        autoComplete="off"
+                        />
+                        <label className="input" htmlFor="floatingInput">
+                        Email
+                        </label>
+                    </div>
+                    <div className="form-floating mb-3">
+                        <input
+                        type="password"
+                        className="form-control"
+                        name='password'
+                        id="floatingPassword"
+                        placeholder="password"
+                        value={user.password}
+                        onChange={handleInputs}
+                        autoComplete="off"
+                        />
+                        <label className="input" htmlFor="floatingPassword">
+                        Password
+                        </label>
+                    </div>
+                    <div className="form-floating mb-3">
+                        <input
+                        type="confirmpassword"
+                        name='confirmpassword'
+                        className="form-control"
+                        id="floatingInput"
+                        placeholder="confirmpassword"
+                        value={user.confirmpassword}
+                        onChange={handleInputs}
+                        autoComplete="off"
+                        />
+                        <label className="input" htmlFor="floatingInput">
+                        Confirm Password
+                        </label>
+                    </div>
+
+                        <button className="text-uppercase button" onClick={PostData} type="submit">
+                        Sign Up
+                        </button>
+                    </form>
                 </div>
-
-                <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input name='email' type="email" className="form-control" id="exampleInputEmail1" value={user.email} onChange={handleInputs} aria-describedby="emailHelp"/>
                 </div>
-
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">contact number</label>
-                    <input name='phone' type="number" className="form-control" id="exampleInputPassword2" value={user.phone} onChange={handleInputs} placeholder='contact number'/>
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input name='password' type="password" className="form-control" id="exampleInputPassword3" value={user.password} onChange={handleInputs}/>
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Confirm your Password</label>
-                    <input name='cpassword' type="password" className="form-control" id="exampleInputPassword4" value={user.cpassword} onChange={handleInputs} />
-                </div>
-
-                
-
-                {/* <div className="mb-3 form-check">
-                    <input value={user.username} onChange={} type="checkbox" className="form-check-input"value={user.username} onChange={}  id="exampleCheck1"/>
-                    <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                </div> */}
-        <input type="submit" value="submit" onClick={PostData} />
-        <div>
-            <NavLink to="/login">already registered? go to login page</NavLink>
+            </div>
+            </div>
         </div>
-        
-        </form> 
+        </body>
         </>
     );
 }
