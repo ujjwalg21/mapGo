@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const Host = require('../models/hostSchema');
+const Event = require('../models/eventSchema');
 
 
 router.post("/register", async (req,res)=>{
@@ -62,6 +63,25 @@ router.put('/password/:id', async(req,res)=>{
          )
     }catch(err){
 
+    }
+})
+
+
+//showevents works
+router.get('/showevents/:hostname', async(req,res)=>{
+    try{
+        const hostname = req.params.hostname;
+        const hostDoc = await Host.findOne({hostname:hostname});
+
+        const hostId = hostDoc._id;
+
+        const allEvents = await Event.find({host: hostId});
+         
+        // console.log(allEvents);
+        res.status(200).json(allEvents);
+    }
+    catch(err){
+        console.log(err);
     }
 })
 

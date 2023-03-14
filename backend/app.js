@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
+const cors = require('cors');
 
 const userRouter = require('./routes/user');
 const hostRouter = require('./routes/host');
@@ -28,6 +29,9 @@ mongoose.connect(process.env.DB_URL,
 
 //only parses json req body
 app.use(express.json());
+
+//cross origin
+app.use(cors());
 
 app.use("/api/user", userRouter);
 app.use("/api/host", hostRouter);
