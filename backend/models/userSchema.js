@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const Schedule = require('../models/scheduleSchema');
 
 //defining the shape of the document
 const userSchema = new mongoose.Schema(
@@ -17,10 +18,18 @@ const userSchema = new mongoose.Schema(
         type: String,
         required: true
     },
-    schedule: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Schedule'
-    },
+    schedule: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Event"
+        }
+    ],
+    subscribed:[
+        {
+            type: String
+    
+        }
+    ],
     tokens: [
         {
             token: {
@@ -35,6 +44,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.methods.generateAuthToken = async function(){
     try{
+        //creating token
         let myToken = jwt.sign({_id:this._id}, process.env.SECRET_KEY)
 
         this.tokens = this.tokens.concat({token:myToken})
@@ -48,6 +58,11 @@ userSchema.methods.generateAuthToken = async function(){
         console.log(err)
     }
 }
+
+userSchema.pre('save', async function(next){
+    const sched = new Schedule();
+    this.schedule = sched._id;
+});
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

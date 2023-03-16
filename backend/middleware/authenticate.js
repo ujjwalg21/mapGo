@@ -1,13 +1,26 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema');
+const Host = require('../models/hostSchema');
 
-const authenticate = async(req,res,next)=>{
+const authenticateUser = async(req,res,next)=>{
     try{
-        const token = req.cookies.mapgo;
+
+        console.log("inside authenticateuser");
+        console.log("this is cookie");
+        console.log(req.cookies);
+
+        const token = req.cookies.MAPGOdevUSER;
+        console.log('this is token')
+        console.log(token);
+
+        if(!token){
+            //no token not logged in
+            throw new Error("no token found")
+        }
         const verify = jwt.verify(token, process.env.SECRET_KEY);
 
         const rootUser = await User.findOne(
-            {_id: verify._id, "tokens:token": token}
+            {_id: verify._id, "tokens.token": token}
         )
         
         if(!rootUser){
@@ -21,8 +34,47 @@ const authenticate = async(req,res,next)=>{
         next();
     }
     catch(err){
+        res.status(401).send("unauthorised access").end();
         console.log(err);
     }
 }
 
-module.exports = authenticate;
+const authenticateHost = async(req,res,next)=>{
+    try{
+
+        console.log("inside authenticatehost");
+        console.log("this is cookie");
+        console.log(req.cookies);
+
+        const token = req.cookies.MAPGOdevHOST;
+        console.log('this is token')
+        console.log(token);
+
+        if(!token){
+            //no token not logged in
+            throw new Error("no token/cookie found")
+        }
+        const verify = jwt.verify(token, process.env.SECRET_KEY);
+
+        const rootHost = await Host.findOne(
+            {_id: verify._id, "tokens.token": token}
+        )
+        
+        if(!rootHost){
+            throw new Error('Host not found');
+        }
+
+        req.token = token;
+        req.rootHost = rootHost;
+        req.userId = rootHost._id;
+
+        next();
+    }
+    catch(err){
+        res.status(401).send("unauthorised access").end();
+        console.log(err);
+    }
+}
+
+
+module.exports = {authenticateUser, authenticateHost};

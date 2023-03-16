@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken')
 
 //defining the shape of the document
 const hostSchema = new mongoose.Schema(
@@ -22,9 +23,18 @@ const hostSchema = new mongoose.Schema(
     about:{
         type: String
     },
-    labels: [
+    subscribers: [
         {
-            type:String
+            type: String
+            //username of user
+        }
+    ],
+    tokens: [
+        {
+            token: {
+                type:String,
+                required: true
+            }
         }
     ]
    
@@ -33,6 +43,22 @@ const hostSchema = new mongoose.Schema(
 }
 );
 
+hostSchema.methods.generateAuthToken = async function(){
+    try{
+        //creating token
+        let myToken = jwt.sign({_id:this._id}, process.env.SECRET_KEY)
+
+        this.tokens = this.tokens.concat({token:myToken})
+
+        //saves token in db
+        await this.save();
+
+        return myToken;
+    }
+    catch(err){
+        console.log(err)
+    }
+}
 
 const Host = mongoose.model('Host', hostSchema);
 module.exports = Host;

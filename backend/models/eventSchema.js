@@ -8,14 +8,10 @@ const eventSchema = new mongoose.Schema({
     startTime: {
         type: Date,
         required: true,
-        min: 0,
-        max: 2359,
     },
     endTime: {
         type: Date,
         required: true,
-        min: 0,
-        max: 2359,
     },
     latitude: {
         type: Number,
@@ -28,6 +24,13 @@ const eventSchema = new mongoose.Schema({
     host: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Host'
+    },
+    hostname:{
+        type: String,
+        required: true
+    },
+    description: {
+        type: String
     }
 })
 

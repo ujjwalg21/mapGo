@@ -1,20 +1,12 @@
 const router = require('express').Router();
 
+const { authenticateHost } = require('../middleware/authenticate');
 const Event = require('../models/eventSchema');
+const { findOneAndUpdate } = require('../models/scheduleSchema');
+const Host = require('../models/hostSchema');
+const User = require('../models/userSchema');
 
 
-router.post("/new", async (req,res)=>{
-    const newEvent = new Event(req.body)
-
-    try{
-        const savedEvent = await newEvent.save();
-        res.status(200).json(savedEvent);   
-        console.log("event created successfully");     
-
-    }catch(err){
-        res.status(500).json(err);
-    }
-})
 
 router.get('/show', async(req,res)=>{
     try{
