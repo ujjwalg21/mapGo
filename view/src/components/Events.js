@@ -6,6 +6,7 @@ export const Events = (props) => {
         minHeight: "70vh",
         margin: "40px auto"
     }
+    
     return (
         <div className="container" style={myStyle}>
             <h3 className="my-3">Events List</h3>

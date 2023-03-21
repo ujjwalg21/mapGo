@@ -31,10 +31,6 @@ router.post("/register", async (req,res)=>{
 //OK
 router.post('/login', async(req,res)=>{
     try{
-        console.log("this is req body")
-        console.log(req.body);
-        
-        //unique username finds user doc
         const userDoc = await User.findOne({username:req.body.username});
 
         if(!userDoc){
@@ -61,15 +57,13 @@ router.post('/login', async(req,res)=>{
             httpOnly: true
         }
         );
-        console.log("cookie stored");
-        console.log(req.cookies);
-        console.log("-----");
-        console.log(res.cookies);
+        // console.log("cookie stored");
+        // console.log(req.cookies);
         
-        console.log("login done");
-        // console.log(res);
+        // console.log(res.cookies);
         
-
+        // console.log("login done");
+        // // console.log(res);
         res.status(200).json("login successful");
     }
     catch(err){
@@ -187,10 +181,8 @@ router.get('/showhosts', authenticateUser, async(req,res)=>{
 
             allHosts.push(hostDoc);
          }
-
-        console.log(allHosts);
+        // console.log(allHosts);
         res.status(200).send(allHosts).end();
-
     }
     catch(err){
         console.log(err);

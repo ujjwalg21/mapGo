@@ -4,19 +4,40 @@ import { Routes, Route } from "react-router-dom"
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
-import About from "./components/About";
+import Profile from "./components/Profile";
+import Hostlogin from "./components/Hostlogin"
+import Hostprofile from './components/Hostprofile';
+import Hostannounce from './components/Hostannounce';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Contact from "./components/Contact";
-import {AddEvent} from "./components/AddEvent";
-import {Events} from "./components/Events";
-import { useState,useEffect } from 'react';
-
-
 
 const App = ()=> {
 
+  return(
+    <>
+      <Navbar/>
 
+      <Routes>
+        <Route exact path="/home" element={ <Home/> } />
+        <Route exact path="/profile" element={ <Profile/> } />
+        <Route exact path="/signin" element={ <Login/> } />
+        <Route exact path="/signup" element={ <Signup/> } />
+        <Route path='/hostlogin' element={<Hostlogin/>} />
+        <Route path='/hostprofile' element={<Hostprofile/>} />
+        <Route path='/hostannounce' element={<Hostannounce/>}/>
+      </Routes>
+
+      <div>
+        login to use the application  
+      </div>
+
+    </>
+    
+  );
+  
+}
+
+/*
 
   let initEvent;
   if (localStorage.getItem("events") === null) {
@@ -65,48 +86,5 @@ const App = ()=> {
     localStorage.setItem("events", JSON.stringify(events));
   }, [events])
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  return(
-    <>
-      <Navbar/>
-
-      <Routes>
-        <Route exact path="/" element={ <Home/> } />
-        <Route path="/about" element={ <About/> } />
-        <Route path="/contact" element={ <Contact/> } />
-        <Route path="/signin" element={ <Login/> } />
-        <Route path="/signup" element={ <Signup/> } />
-        {/* <Route exact path="/events" render={()=>{
-            return(
-            <>
-            <AddEvent addEvent={addEvent} />
-            <Events events={events} onDelete={onDelete} /> 
-            </>)
-          }}> 
-          </Route> */}
-
-          <Route path='/addevents' element={<AddEvent addEvent={addEvent}/>} />
-          <Route path='/events' element={<Events events={events} onDelete={onDelete}/>} />
-
-      </Routes>
-      
-
-    </>
-    
-  );
-  
-}
-
+*/
 export default App;

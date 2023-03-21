@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {Auth} from "two-step-auth";
 
 import {useNavigate } from "react-router-dom";
 
@@ -40,12 +41,8 @@ const Signup = () => {
   const submitForm = async (event) => {
     try{      
             event.preventDefault();
-      
             const { username, email, password, confirmpassword } = user;
-
             //check confirm password
-
-
             const res = await fetch(
               'http://localhost:5000/api/user/register',
               {
@@ -59,13 +56,7 @@ const Signup = () => {
                     "password": password
                 })
               }
-          )
-      
-            // console.log("this is response");
-            // console.log(res);
-            // console.log("that was res")
-
-
+            )
             if (res.status === 400) {
               window.alert("username taken, try another one");
               console.log("username taken");

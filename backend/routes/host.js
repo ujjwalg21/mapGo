@@ -22,20 +22,19 @@ router.post("/register", async (req,res)=>{
 //OK
 router.post('/login', async(req,res)=>{
     try{
-        
         const hostDoc = await Host.findOne({hostname:req.body.hostname});
 
-        console.log(hostDoc);
+        // console.log(hostDoc);
 
         if(!hostDoc){
-            res.status(400).json("wrong username or password");
+            res.status(400).json("wrong username or password").end();
         }
 
         //validate password
         const validPassword = (req.body.hostpassword == hostDoc.hostpassword);
 
         if(!validPassword){
-            res.status(400).json("wrong username or password");
+            res.status(400).json("wrong username or password").end();
         }
 
         let token = await hostDoc.generateAuthToken();
@@ -47,13 +46,12 @@ router.post('/login', async(req,res)=>{
         });
 
         //send response ok
-        res.status(200).json("host logged in successfully");
+        res.status(200).json("host logged in successfully").end();
     }
     catch(err){
-        res.status(500).json(err);
+        console.log(err);
     }
 })
-
 
 //OK
 router.get('/showevents', authenticateHost, async(req,res)=>{
@@ -107,6 +105,11 @@ router.post("/createevent", authenticateHost, async (req,res)=>{
     }catch(err){
         res.status(500).json(err);
     }
+});
+
+router.get('/private', authenticateHost, (req,res)=>{
+    console.log("this is host private");
+    res.send(req.rootHost);
 });
 
 

@@ -6,8 +6,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
-    username: "",
-    password: "",
+    hostname: "",
+    hostpassword: "",
   });
 
   let key, value;
@@ -32,13 +32,12 @@ const Login = () => {
 
       console.log("submitting");
       // console.log(user);
-
-      const {username, password} = user;
-      console.log(username);
-      console.log(password);
+      const {hostname, hostpassword} = user;
+      console.log(hostname);
+      console.log(hostpassword);
 
       const res = await fetch(
-        'http://localhost:5000/api/user/login',
+        'http://localhost:5000/api/host/login',
         {
             method: "POST",
             headers: {
@@ -46,23 +45,23 @@ const Login = () => {
             },
             credentials: 'include',
             body: JSON.stringify({
-              "username": username,
-              "password": password
+              "hostname": hostname,
+              "hostpassword": hostpassword
           })
         }
     )
 
         // res.cookie('MAPGOdev', "trialvalue");
 
-      if(res.status === 401){
+      if(res.status === 400){
         //wrong username
-        window.alert("username or password incorrect");
+        window.alert("host username or password incorrect");
       }
 
       if(res.status === 200){
         //valid creds successful login
         window.alert("login successful");
-        navigate("/home");
+        navigate("/hostprofile");
       }
 
       if(res.status === 500){
@@ -94,11 +93,11 @@ const Login = () => {
                         className="form-control"
                         id="floatingInput"
                         placeholder="username"
-                        name="username"
+                        name="hostname"
                         onChange={handleInputs}
                       />
                       <label className="input" for="floatingInput">
-                        Username
+                        Hostname
                       </label>
                     </div>
                     <div className="form-floating mb-3">
@@ -107,11 +106,11 @@ const Login = () => {
                         className="form-control"
                         id="floatingPassword"
                         placeholder="password"
-                        name="password"
+                        name="hostpassword"
                         onChange={handleInputs}
                       />
                       <label className="input" for="floatingPassword">
-                        Password
+                        Host Password
                       </label>
                     </div>
 
@@ -120,9 +119,11 @@ const Login = () => {
                     </NavLink>
                     <hr className="my-4" />
                   </form>
+
                   <button className="text-uppercase button" onClick={submitForm} type="submit" >
                       Sign in
                     </button>
+
                 </div>
               </div>
             </div>
