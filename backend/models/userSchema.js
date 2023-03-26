@@ -59,10 +59,10 @@ userSchema.methods.generateAuthToken = async function(){
     }
 }
 
-userSchema.pre('save', async function(next){
-    const sched = new Schedule();
-    this.schedule = sched._id;
-});
+// userSchema.pre('save', async function(next){
+//     const sched = new Schedule();
+//     this.schedule = sched._id;
+// });
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

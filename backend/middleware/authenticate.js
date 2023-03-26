@@ -5,13 +5,13 @@ const Host = require('../models/hostSchema');
 const authenticateUser = async(req,res,next)=>{
     try{
 
-        console.log("inside authenticateuser");
-        console.log("this is cookie");
-        console.log(req.cookies);
+        // console.log("inside authenticateuser");
+        // console.log("this is cookie");
+        // console.log(req.cookies);
 
         const token = req.cookies.MAPGOdevUSER;
-        console.log('this is token')
-        console.log(token);
+        // console.log('this is token')
+        // console.log(token);
 
         if(!token){
             //no token not logged in

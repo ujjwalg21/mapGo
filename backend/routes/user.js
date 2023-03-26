@@ -7,12 +7,15 @@ const {authenticateUser} = require('../middleware/authenticate');
 const Host = require('../models/hostSchema');
 
 //OK
+
 router.post("/register", async (req,res)=>{
+    let userERR = 0;
     //req.body like userSchema
     try{
-        // console.log("this is user req");
-        console.log(req.body);
-
+        if(!req.body.username){
+            userERR = 1;
+            throw "invalid req body"
+        }
         const newUser = new User(req.body)
 
         const alreadyUser = await User.findOne({username: req.body.username})
@@ -24,31 +27,40 @@ router.post("/register", async (req,res)=>{
             res.status(200).json(savedUser); 
         }
     }catch(err){
-        res.status(500).json("error in server");
+        if(userERR){
+            res.status(401).json(err).end();
+        }
+        else{res.status(500).json("error in server");}
     }
 })
 
 //OK
 router.post('/login', async(req,res)=>{
+    let userERR = 0;
     try{
+        if(!req.body.username){
+            userERR = 1;
+            throw "invalid req body"
+        }
         const userDoc = await User.findOne({username:req.body.username});
 
         if(!userDoc){
-            res.status(401).json("wrong username or password").end();
+            res.status(401);
+            throw ("wrong username or password");
         }
 
         //validate password
         const validPassword = (req.body.password == userDoc.password);
 
         if(!validPassword){
-            res.status(401).json("wrong username or password").end();
-          
+            res.status(401);
+            throw ("wrong username or password");
         }
 
         //calling userschema method to generate and save token
         let token = await userDoc.generateAuthToken();
         
-        console.log(token);
+        // console.log(token);
 
         //store token in cookie
         res.cookie("MAPGOdevUSER", token,
@@ -57,18 +69,14 @@ router.post('/login', async(req,res)=>{
             httpOnly: true
         }
         );
-        // console.log("cookie stored");
-        // console.log(req.cookies);
         
-        // console.log(res.cookies);
-        
-        // console.log("login done");
-        // // console.log(res);
         res.status(200).json("login successful");
     }
     catch(err){
-        // res.status(500).json(err);
-        console.log(err);
+        if(userERR){
+            res.status(401).json(err).end();
+        }
+        else{res.json(err).end();}
     }
 })
 
@@ -83,6 +91,7 @@ router.get('/showevents', authenticateUser , async(req,res)=>{
             console.log("no user exists");
             res.status(404).end();
         }
+
         const allEvents = [];
    
         for(let i=0; i< req.rootUser.schedule.length; i++){
@@ -93,8 +102,8 @@ router.get('/showevents', authenticateUser , async(req,res)=>{
         res.status(200).send(allEvents).end();
     }
     catch(err){
-        console.log(err);
-        res.status(500)
+        // console.log(err);
+        res.status(500).json(err);
     }  
 });
 
@@ -102,6 +111,7 @@ router.get('/showevents', authenticateUser , async(req,res)=>{
 router.put('/password/:username/:newpassword', async(req,res)=>{
     
         //req.params username, newpassword
+        // /password/user1/newUSER1password
 
        User.findOneAndUpdate(
         {username: req.params.username},
@@ -138,7 +148,6 @@ router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
             {hostname:req.params.hostname}
         );
         
-        console.log("this is host new events");
         // console.log(hostEvents.length);
         for(let i=0; i< hostEvents.length; i++){
 
@@ -148,7 +157,7 @@ router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
             );
         }       
 
-        res.status(200).json(user); 
+        res.status(200).json("successfully subscribed"); 
     }
     catch(err){
         console.log(err);

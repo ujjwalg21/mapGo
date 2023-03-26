@@ -3,6 +3,7 @@ const Host = require('../models/hostSchema');
 const Event = require('../models/eventSchema');
 const User = require('../models/userSchema');
 const { authenticateHost } = require('../middleware/authenticate');
+const { Error } = require('mongoose');
 
 //OK
 //private route, only in development
@@ -12,7 +13,8 @@ router.post("/register", async (req,res)=>{
         const newHost = new Host(req.body)
 
         const savedHost = await newHost.save();
-        res.status(200).json(savedHost);        
+
+        res.status(200).json(savedHost).end();        
 
     }catch(err){
         res.status(500).json(err);
@@ -20,8 +22,15 @@ router.post("/register", async (req,res)=>{
 })
 
 //OK
+let userERR = 0;
+
 router.post('/login', async(req,res)=>{
     try{
+        if(!req.body.hostname){
+            userERR = 1;
+            throw ("no valid req body");
+        }
+
         const hostDoc = await Host.findOne({hostname:req.body.hostname});
 
         // console.log(hostDoc);
@@ -49,7 +58,10 @@ router.post('/login', async(req,res)=>{
         res.status(200).json("host logged in successfully").end();
     }
     catch(err){
-        console.log(err);
+        // console.log(err);
+        if(userERR){res.status(401).json(err).end();}
+
+        else {res.status(500).json(err).end();}
     }
 })
 
@@ -59,10 +71,10 @@ router.get('/showevents', authenticateHost, async(req,res)=>{
         const allEvents = await Event.find({host: req.rootHost._id});
          
         // console.log(allEvents);
-        res.status(200).json(allEvents);
+        res.status(200).json(allEvents).end();
     }
     catch(err){
-        console.log(err);
+        res.status(500).json(err).end();
     }
 })
 
@@ -71,10 +83,16 @@ router.post("/createevent", authenticateHost, async (req,res)=>{
 
     try{
 
+        const myDate1 = new Date(req.body.startTime);
+        const istStart = myDate1.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+
+        const myDate2 = new Date(req.body.endTime);
+        const istEnd = myDate2.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+
     const newEvent = new Event({
         eventname: req.body.eventname,
-        startTime: req.body.startTime,
-        endTime: req.body.endTime,
+        startTime: istStart,
+        endTime: istEnd,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
         //
@@ -99,11 +117,11 @@ router.post("/createevent", authenticateHost, async (req,res)=>{
 
         console.log("host creationg updated subscribers schedules");
 
-        res.status(200).json("host created event successfully");
+        res.status(200).json("host created event successfully").end();
             
 
     }catch(err){
-        res.status(500).json(err);
+        res.status(500).json(err).end();
     }
 });
 
