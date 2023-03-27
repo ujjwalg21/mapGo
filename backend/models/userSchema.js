@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const Schedule = require('../models/scheduleSchema');
+
 
 //defining the shape of the document
 const userSchema = new mongoose.Schema(

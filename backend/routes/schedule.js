@@ -1,7 +1,6 @@
 const router = require('express').Router();
 
-const { events } = require('../models/scheduleSchema');
-const Schedule = require('../models/scheduleSchema');
+// const { events } = require('../models/scheduleSchema');
 
 
 router.post("/", async (req,res)=>{

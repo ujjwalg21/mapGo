@@ -1,45 +1,105 @@
 const router = require('express').Router();
+const nodemailer = require('nodemailer');
+
 const User = require('../models/userSchema');
-const Schedule = require('../models/scheduleSchema');
 const jwt = require('jsonwebtoken');
 const Event = require('../models/eventSchema');
+const UserVerif = require('../models/userVerifSchema');
 const {authenticateUser} = require('../middleware/authenticate');
 const Host = require('../models/hostSchema');
+const PasswordChange = require('../models/passwordSchema');
+
+
+let transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.SMTP_MAIL, 
+      pass: process.env.SMTP_PASS, // generated ethereal password
+    },
+  });
+
+router.get('/verify-email/:username/:iitkemail', async(req,res)=>{
+    try{
+        //req.params username, iitkemail
+        //generate OTP before sending register
+        let otp = '';
+        for(let i=0; i<=3; i++){
+            const randval = Math.round(Math.random()*9);
+            otp = otp + randval;
+        }
+        const verifToken = new UserVerif({
+            owner:req.params.username,
+            token: otp
+        });
+        //deleting previous stored otp doc
+        await UserVerif.deleteMany({owner:req.params.username});
+
+        await verifToken.save();
+
+        let mailOptions = {
+            from: process.env.SMTP_MAIL,
+            to: req.params.iitkemail,
+            subject: "Verification OTP from mapGo",
+            text: `this is the requested otp: ${otp}`
+        }
+
+        const mail = await transporter.sendMail(mailOptions);
+        res.status(200).json("email with otp sent successfully")
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+});
 
 //OK
-
 router.post("/register", async (req,res)=>{
-    let userERR = 0;
+    
     //req.body like userSchema
     try{
         if(!req.body.username){
-            userERR = 1;
+            res.status(401);
             throw "invalid req body"
         }
+
         const newUser = new User(req.body)
 
         const alreadyUser = await User.findOne({username: req.body.username})
+
         if(alreadyUser){
-            res.status(400).json("username taken");
+            res.status(400);
+            throw "username already taken";
         }
         else {
-            const savedUser = await newUser.save();
-            res.status(200).json(savedUser); 
+            //check if given otp is correct or not
+            const otpDoc = await UserVerif.findOne({owner: req.body.username});
+
+            if(!otpDoc){
+                res.status(401);
+                throw "did not generate otp verification token"
+            }
+            
+            if(otpDoc.token === req.body.otp){
+                const savedUser = await newUser.save();
+                res.status(200).json(savedUser).end(); 
+            }
+            else{
+                res.status(406)
+                throw "invalid otp";
+            }
         }
-    }catch(err){
-        if(userERR){
-            res.status(401).json(err).end();
-        }
-        else{res.status(500).json("error in server");}
+    }
+    catch(err){
+        res.json(err);
     }
 })
 
 //OK
 router.post('/login', async(req,res)=>{
-    let userERR = 0;
     try{
         if(!req.body.username){
-            userERR = 1;
+            res.status(400);
             throw "invalid req body"
         }
         const userDoc = await User.findOne({username:req.body.username});
@@ -60,8 +120,6 @@ router.post('/login', async(req,res)=>{
         //calling userschema method to generate and save token
         let token = await userDoc.generateAuthToken();
         
-        // console.log(token);
-
         //store token in cookie
         res.cookie("MAPGOdevUSER", token,
         {
@@ -73,10 +131,7 @@ router.post('/login', async(req,res)=>{
         res.status(200).json("login successful");
     }
     catch(err){
-        if(userERR){
-            res.status(401).json(err).end();
-        }
-        else{res.json(err).end();}
+        res.json(err).end();
     }
 })
 
@@ -106,23 +161,77 @@ router.get('/showevents', authenticateUser , async(req,res)=>{
         res.status(500).json(err);
     }  
 });
+router.get('/password-verify-email/:username/:iitkemail', async(req,res)=>{
+    try{
+        //req.params username, iitkemail
+        //generate OTP before sending register
+        let otp = '';
+        for(let i=0; i<=3; i++){
+            const randval = Math.round(Math.random()*9);
+            otp = otp + randval;
+        }
+        const verifToken = new PasswordChange({
+            owner:req.params.username,
+            token: otp
+        });
+        //deleting previous stored otp doc
+        await PasswordChange.deleteMany({owner:req.params.username});
+
+        await verifToken.save();
+
+        let mailOptions = {
+            from: process.env.SMTP_MAIL,
+            to: req.params.iitkemail,
+            subject: "Verification OTP from mapGo",
+            text: `this is otp for password change: ${otp}`
+        }
+
+        const mail = await transporter.sendMail(mailOptions);
+        res.status(200).json("email with otp sent successfully")
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+});
 
 //OK
-router.put('/password/:username/:newpassword', async(req,res)=>{
-    
-        //req.params username, newpassword
+router.post('/changepassword', async(req,res)=>{
+    try{
+        //req.body username, newpassword , otp
         // /password/user1/newUSER1password
 
-       User.findOneAndUpdate(
-        {username: req.params.username},
-        {password:req.params.newpassword}
-       )
-       .then( doc=>{
-            if(!doc){return res.status(404).end();}
-            return res.status(200).json(doc);
-       })
-       .catch(err => console.log(err))
+        //before creating new password, verify-email is called
+        const otpDoc = await PasswordChange.findOne({owner: req.body.username});
+
+        if(!otpDoc){
+            res.status(401);
+            throw "this username did not create otp"
+        }
+        
+        if(otpDoc.token === req.body.otp){
+            //otp was sent earlier and used here to verify
+            const doc = await User.findOneAndUpdate(
+                {username: req.body.username},
+                {password:req.body.newpassword}
+                )
+            if(!doc){
+                res.status(404);
+                throw "no user found"
+            }
+
+            res.status(200).json("password updated successfully").end();
+        }
+        else {
+            res.status(406);
+            throw "invalid otp"
+        }
+       
+    }
+    catch(err){
+        res.json(err);
+    }
 })
+
 
 //OK
 router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
@@ -130,14 +239,14 @@ router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
 
         const user = await User.findOneAndUpdate(
             {username: req.rootUser.username},
-            { $push: { subscribed: req.params.hostname }}
+            { $addToSet: { subscribed: req.params.hostname }}
         )
         
         if(!user){return res.status(404).end();}
     
         const host = await Host.findOneAndUpdate(
             {hostname: req.params.hostname},
-            { $push: { subscribers: req.rootUser.username }}
+            { $addToSet: { subscribers: req.rootUser.username }}
         )
         if(!host){
             console.log("no such host");

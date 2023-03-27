@@ -2,7 +2,6 @@ const router = require('express').Router();
 
 const { authenticateHost } = require('../middleware/authenticate');
 const Event = require('../models/eventSchema');
-const { findOneAndUpdate } = require('../models/scheduleSchema');
 const Host = require('../models/hostSchema');
 const User = require('../models/userSchema');
 
