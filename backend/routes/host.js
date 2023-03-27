@@ -14,7 +14,7 @@ router.post("/register", async (req,res)=>{
 
         const savedHost = await newHost.save();
 
-        res.status(200).json(savedHost).end();        
+        res.status(201).json("host registered successfully").end();        
 
     }catch(err){
         res.status(500).json(err);
@@ -23,7 +23,6 @@ router.post("/register", async (req,res)=>{
 
 //OK
 let userERR = 0;
-
 router.post('/login', async(req,res)=>{
     try{
         if(!req.body.hostname){
@@ -32,8 +31,6 @@ router.post('/login', async(req,res)=>{
         }
 
         const hostDoc = await Host.findOne({hostname:req.body.hostname});
-
-        // console.log(hostDoc);
 
         if(!hostDoc){
             res.status(400).json("wrong username or password").end();
