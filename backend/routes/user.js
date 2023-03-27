@@ -199,6 +199,20 @@ router.get('/showhosts', authenticateUser, async(req,res)=>{
 
 })
 
+router.get('/allhosts',authenticateUser, async (req,res)=>{
+    try{
+        const allHosts = await Host.find(
+            {},
+            {hostpassword:0}
+        );
+
+        res.status(200).json(allHosts);
+    }
+    catch(err){
+        res.status(500).json(err).end();
+    }
+})
+
 //OK
 router.get('/logout', (req, res)=>{
     console.log("from the logout page");

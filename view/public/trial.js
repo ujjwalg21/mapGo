@@ -1,6 +1,4 @@
 const axios = require('axios')
-const {Auth} = require("two-step-auth")
-
 // const dotenv = require('react-dotenv').config();
 
 const login = async function() {
@@ -95,27 +93,8 @@ const getHostevents = async function(){
     }
 }   
 
-async function otpDo(emailId) {
-    try{
-            const res = await Auth(emailId);
-        // You can follow this approach,
-        // but the second approach is suggested,
-        // as the mails will be treated as important
-        // const res = await Auth(emailId, "Company Name");
-        console.log(res);
-        console.log(res.mail);
-        console.log(res.OTP);
-        console.log(res.success);
-    }
-    catch(err){
-        console.log(err);
-    }
-    
-  }
-  
 
 // login();
-// register();
+register();
 // getevents();
 // getHostevents();
-otpDo("rohanr21@iitk.ac.in");

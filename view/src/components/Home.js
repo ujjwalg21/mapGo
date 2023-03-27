@@ -1,74 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Home = () =>{
-    const navigate = useNavigate();
-    const getUserPrivate = async () =>{
-        try{
-            const res = await fetch(
-                'http://localhost:5000/api/user/private',
-                {
-                    method: 'GET',
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    credentials: "include"
-                }
-            );
-
-            const data = await res.json()
-            // console.log(data);
-
-            if(!res.status === 200){
-                const error = new Error(res.error);
-                throw error;
-            }
-        }
-        catch(err){
-            console.log(err);
-            navigate('/signin');
-        }
-    }
-    
-    useEffect(()=>{
-        getUserPrivate();
-    }, []);
-
-    const [Hosts, setHosts] = useState([]);
-
-    useEffect(()=>{
-        fetch('http://localhost:5000/api/user/showhosts', 
-        {
-            method: 'GET',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            credentials: "include"
-        })
-        .then(res => res.json())
-        .then( data=> {setHosts(data);})
-        .catch(err=>{console.log(err)});
-    }, []);
-    console.log("this is hosts")
-    console.log(Hosts);
-
     return (
-    <div class="d-flex" id="wrapper">
-        <div class="border-end bg-white" id="sidebar-wrapper">
-            <div class="list-group list-group-flush">
-                {Hosts.map((item)=>{
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">{item.hostname}</a>
-                    // <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>                
-                })};
-            </div>
+        
+       
+        <div id='home'>
+            
+      
+     <h1 id='h' >Ready to GO!!</h1>
+     <div id='part' >
+    <ul>
+      { <li>MapGO : map-event appliaction for IITK.It provides detailed maps of the IITK campus and surrounding areas, as well as navigation and route planning features. Also provide status, update for an event which is organised within iitk </li> }
+      <p></p>
+      <li> If you are a new user, you can sign up for an account. Use you IITK mail id while sign up </li>
+      <p></p>
+      <li> After sign_up you can log in using your IITK credentials, such as your username and password</li>
+      <p> </p>
+      <li> If you have any problem in sign up or  log in <NavLink to="/contact"> Contact_Us</NavLink></li>
+    </ul>
+</div>
+
         </div>
-    </div>
-
-    //include map here
-
+    
     );
 }
 

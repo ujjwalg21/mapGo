@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {Auth} from "two-step-auth";
 
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-
   //user instance for schema
   const [user, setUser] = useState({
     username: "",
@@ -29,8 +27,21 @@ const Signup = () => {
   const checkEmail = function () {
     let email = user.email;
     let text = email.slice(email.length - 11, email.length);
-    return text === "@iitk.ac.in";
+    if (text === "@iitk.ac.in") {
+      return true;
+    }
+    window.alert("Invalid EmailId");
+    return false;
   };
+
+  const checkPassword = function () {
+    if (user.password === user.confirmpassword) {
+      return true;
+    }
+    window.alert("password and confirm password must be same");
+    return false;
+  };
+
   // const str=JSON.stringify(user);
   // console.log(str);
 
@@ -39,42 +50,43 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const submitForm = async (event) => {
-    try{      
-            event.preventDefault();
-            const { username, email, password, confirmpassword } = user;
-            //check confirm password
-            const res = await fetch(
-              'http://localhost:5000/api/user/register',
-              {
-                  method: "POST",
-                  headers: {
-                  "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify({
-                    "username": username,
-                    "iitkemail": email,
-                    "password": password
-                })
-              }
-            )
-            if (res.status === 400) {
-              window.alert("username taken, try another one");
-              console.log("username taken");
-            } else if (res.status === 200) {
-              window.alert("successful registration");
-              navigate("/signin");
-            } else if(res.status ===500) {
-              console.log("error in searching db");
-            }
-            else{
-              console.log("unknown err")
-            }
-      
+    try {
+      event.preventDefault();
+
+      const { username, email, password, confirmpassword } = user;
+
+      if (checkEmail() && checkPassword()) {
+        const res = await fetch("http://localhost:5000/api/user/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            iitkemail: email,
+            password: password,
+          }),
+        });
+
+        // console.log("this is response");
+        // console.log(res);
+        // console.log("that was res")
+
+        if (res.status === 400) {
+          window.alert("username taken, try another one");
+          console.log("username taken");
+        } else if (res.status === 200) {
+          window.alert("successful registration");
+          navigate("/signin");
+        } else if (res.status === 500) {
+          console.log("error in searching db");
+        } else {
+          console.log("unknown err");
+        }
+      }
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-        console.log(err)
-    }
-    
   };
 
   return (
@@ -89,7 +101,6 @@ const Signup = () => {
                   <br />
                   <br />
                   <form>
-
                     <div className="form-floating mb-3">
                       <input
                         type="username"
@@ -152,15 +163,14 @@ const Signup = () => {
                         Confirm Password
                       </label>
                     </div>
-
                   </form>
-                    <button
-                      className="text-uppercase button"
-                      onClick={submitForm}
-                      type="submit"
-                    >
-                      Sign Up
-                    </button>
+                  <button
+                    className="text-uppercase button"
+                    onClick={submitForm}
+                    type="submit"
+                  >
+                    Sign Up
+                  </button>
                 </div>
               </div>
             </div>
@@ -170,7 +180,5 @@ const Signup = () => {
     </>
   );
 };
-
-
 
 export default Signup;

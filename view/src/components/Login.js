@@ -1,71 +1,75 @@
-import React, {useState} from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink ,useNavigate} from "react-router-dom";
+import { useState} from "react";
+import { UserContext } from "../App";
 
 const Login = () => {
-
+  const {state, dispatch}= useContext(UserContext);
+  
   const navigate = useNavigate();
-
+  
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
-
+  
   let key, value;
   const handleInputs = (event) => {
     console.log("key")
     console.log(event.target.name)
-
+    
     console.log("value")
     console.log(event.target.value)
-
+    
     
     key = event.target.name;
     value = event.target.value;
-
+    
     setUser({ ...user, [key]: value }); 
-
+    
   };
-
-
+  
+  
   const submitForm = async(event) =>{
     try{
-
+      
       console.log("submitting");
       // console.log(user);
-
+      
       const {username, password} = user;
       console.log(username);
       console.log(password);
-
+      
       const res = await fetch(
         'http://localhost:5000/api/user/login',
         {
-            method: "POST",
-            headers: {
+          method: "POST",
+          headers: {
             "Content-Type": "application/json"
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-              "username": username,
-              "password": password
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            "username": username,
+            "password": password
           })
         }
-    )
-
+        )
+        
         // res.cookie('MAPGOdev', "trialvalue");
-
-      if(res.status === 401){
-        //wrong username
-        window.alert("username or password incorrect");
-      }
-
-      if(res.status === 200){
-        //valid creds successful login
-        window.alert("login successful");
-        navigate("/home");
-      }
-
-      if(res.status === 500){
+        
+        if(res.status === 401){
+          //wrong username
+          window.alert("username or password incorrect");
+        }
+        
+        if(res.status === 200){
+          //valid creds successful login
+          window.alert("login successful");
+          // dispatch({type:"USER", payload:true})
+          navigate("/home");
+        }
+        
+        if(res.status === 500){
         //error in server
         window.alert("server side error");
       }
@@ -96,6 +100,7 @@ const Login = () => {
                         placeholder="username"
                         name="username"
                         onChange={handleInputs}
+                        autoComplete="off"
                       />
                       <label className="input" for="floatingInput">
                         Username
@@ -109,6 +114,7 @@ const Login = () => {
                         placeholder="password"
                         name="password"
                         onChange={handleInputs}
+                        autoComplete="off"
                       />
                       <label className="input" for="floatingPassword">
                         Password
