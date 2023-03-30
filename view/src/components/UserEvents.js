@@ -1,9 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-// import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-// import SearchBar from './SearchBar'
 import ShowHosts from './ShowHosts'
 
 
@@ -63,59 +60,13 @@ const UserEvents = () => {
   console.log(Events);
   
   
-  // const [hosts, setHosts] = useState([]);
-  // const [searchResults, setSearchResults] = useState([]);
-  
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/api/user/allhosts", {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     credentials: "include",
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setHosts(data);
-  //       return data;
-  //     }).then(data=>{
-  //       setSearchResults(data)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-
-  // const handleSubmit = (e) => e.preventDefault()
-
-  //   const handleSearchChange = (e) => {
-  //       if (!e.target.value) return setSearchResults(hosts)
-
-  //       const resultsArray = hosts.filter(host => host.hostname.includes(e.target.value) || host.about.includes(e.target.value))
-
-  //       setSearchResults(resultsArray)
-  //   }
 
 
     
 
   return (
     <>
-    {/* <header>
-            <form className="search" onSubmit={handleSubmit}>
-                <input
-                    className="search__input"
-                    type="text"
-                    id="search"
-                    onChange={handleSearchChange}
-                />
-                <button className="search__button">
-                    Search
-                </button>
-            </form>
-        </header> */}
+    
 
       
     <div className="contain">

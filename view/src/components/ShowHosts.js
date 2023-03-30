@@ -1,4 +1,4 @@
-import Host from "./Host";
+
 import React, { useState, useEffect } from "react";
 
 import * as FaIcons from "react-icons/fa";
@@ -13,30 +13,28 @@ const ShowHosts = () => {
 
   const showSidebar = () => setSidebar(!sidebar);
 
-  // const [host, setHost] = useState([]);
+  let baseURL = "http://localhost:5000/api/user/subscribe/";
 
-  let url;
+  const subscribe = (host) => {
 
-  const subscribe = () => {
+    let url = baseURL + host.hostname;
+
+    console.log("this is url");
+    console.log(url);
+    // setUrl(URL);
     console.log("subscribing");
-    console.log(url.trim());
+    console.log(URL);
 
-    fetch(url.trim(), {
+    fetch(url, {
       method: "PUT",
       headers: {
-        // Accept: "application/json",
         "Content-Type": "application/json",
-        body: JSON.stringify({ message: "subscribing" }),
       },
       credentials: "include",
     })
       .then((res) => {
         console.log(res.status);
-        // console.log("subscribed")
-        // document.getElementById('btn').disabled=true;
-       // document.querySelectorALL('.btn-success').innerHTML="<span>Subscribed</span>"
         console.log(res);
-        // window.alert(`subscribed ${host.hostname}`)
       })
       .catch((err) => {
         console.log(err);
@@ -82,14 +80,7 @@ const ShowHosts = () => {
     setSearchResults(resultsArray);
   };
 
-  // const results = searchResults.map(host => <article>
-  //     <h2>{host.hostname}</h2>
-  //     <p>{host.about}</p>
-  //     <button className="btn-success" ></button>
-  //   </article>)
-
-  // const content = results?.length ? results : <article><p>No Matching Hosts</p></article>
-
+  
   return (
     // <main>{content}</main>
     <IconContext.Provider value={{ color: "#fff" }}>
@@ -115,21 +106,20 @@ const ShowHosts = () => {
                 onChange={handleSearchChange}
               />
               <button className="search__button">
-                {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
                 <FontAwesomeIcon icon="fa-sharp fa-solid fa-magnifying-glass" />
               </button>
             </form>
           </header>
           {searchResults.map((host, index) => {
-
-            url = `http://localhost:5000/api/user/subscribe/${host.hostname}`;
+            
+            
             return (
               <>
               <div className="menubox">
                 <h2>{host.hostname}</h2>
                 <p>{host.about}</p>
 
-                <button className="btn-success" id="btn" onClick={subscribe}>
+                <button className="btn-success" id="btn" onClick={()=>{subscribe(host)}}>
                   Subscribe
                 </button>
 

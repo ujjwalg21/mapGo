@@ -121,7 +121,7 @@ const Login = () => {
                       </label>
                     </div>
 
-                    <NavLink to="#" className="forgotPass">
+                    <NavLink to="/forgotpass" className="forgotPass">
                       <p>Forgot password ?</p>
                     </NavLink>
                     <hr className="my-4" />

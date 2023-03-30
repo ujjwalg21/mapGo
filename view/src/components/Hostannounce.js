@@ -96,7 +96,6 @@ const Hostannounce = ({ addEvent }) => {
     ) {
       alert("Please fill all the fields");
     } else {
-      // addEvent(eventname,description,startTime,endTime,longitude,latitude);
 
       const res = await fetch("http://localhost:5000/api/host/createevent", {
         method: "POST",
@@ -208,43 +207,6 @@ const Hostannounce = ({ addEvent }) => {
               endTime
             </label>
           </div>
-          {/* <div className="form-floating mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="longitude"
-                        placeholder="longitude"
-                        value={longitude}
-                        onChange={(e) => setLongitude(e.target.value)}
-                        autoComplete="off"
-                        />
-                      <label className="input" htmlFor="floatingvenue">
-                        Longitude
-                      </label>
-                    </div>
-                <div className="form-floating mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="latitude"
-                        placeholder="latitude"
-                        value={latitude}
-                        onChange={(e) => setLatitude(e.target.value)}
-                        autoComplete="off"
-                        />
-                      <label className="input" htmlFor="floatingvenue">
-                        Latitude
-                      </label>
-                    </div> */}
-
-          {/* <label for="venue">Choose a Venue:</label>
-          <select id="cars" name="cars">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="fiat">Fiat</option>
-            <option value="audi">Audi</option>
-          </select> */}
-
           <div className="form-floating mb-3">
             <select
               className="form-control"

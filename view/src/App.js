@@ -11,12 +11,12 @@ import Profile from "./components/Profile";
 import Hostlogin from "./components/Hostlogin"
 import Hostprofile from './components/Hostprofile';
 import Hostannounce from './components/Hostannounce';
-import hostHome from './components/hostHome';
-import Contact from "./components/Contact";
+import HostHome from './components/HostHome';
 import UserEvents from "./components/UserEvents";
 import Logout from "./components/Logout";
+import Hostlogout from './components/Hostlogout';
 import {Events} from "./components/Events";
-// import Sidebar from "./components/sidebar";
+import Forgotpass from './components/Forgotpass';
 import { useState,useEffect } from 'react';
 
 
@@ -34,7 +34,6 @@ const Routing = () =>{
     <Routes>
       <Route exact path="/" element={ <Home/> } />
       
-      <Route path="/contact" element={ <Contact/> } />
       <Route path="/signin" element={ <Login/> } />
       <Route path="/signup" element={ <Signup/> } />
       <Route path="/userhome" element={ <Userhome/> } />
@@ -44,9 +43,10 @@ const Routing = () =>{
       <Route path ='/events' element={<Events/>} />
       <Route path ='/hostprofile' element={<Hostprofile/>} />
       <Route path ='/userevents' element={<UserEvents/>} />
-      <Route path ='/hosthome' element={<hostHome/>} />
+      <Route path ='/hosthome' element={<HostHome/>} />
       <Route path ='/logout' element={<Logout/>} />
-      {/* <Route path ='/sidebar' element={<Sidebar/>} /> */}
+      <Route path ='/hostlogout' element={<Hostlogout/>} />
+      <Route path ='/forgotpass' element={<Forgotpass/>} />
 
       
       

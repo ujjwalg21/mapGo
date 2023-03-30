@@ -52,13 +52,16 @@ const Navbar = () => {
           <NavLink className="navlink" to="/userhome">Userhome</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="navlink" to="/hosthome">hostHome</NavLink>
+          <NavLink className="navlink" to="/hosthome">HostHome</NavLink>
         </li>
         <li className="nav-item">
           <NavLink className="navlink" to="/contact">Contact</NavLink>
         </li>
         <li className="nav-item">
           <NavLink className="navlink" to="/logout">Logout</NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="navlink" to="/hostlogout">Hostlogout</NavLink>
         </li>
           
       </div>

@@ -26,24 +26,26 @@ let userERR = 0;
 router.post('/login', async(req,res)=>{
     try{
         if(!req.body.hostname){
-            userERR = 1;
+            res.status(400);
             throw ("no valid req body");
         }
 
         const hostDoc = await Host.findOne({hostname:req.body.hostname});
 
         if(!hostDoc){
-            res.status(400).json("wrong username or password").end();
+            res.status(400);
+            throw "wrong usernamae or password"
         }
 
         //validate password
-        const validPassword = (req.body.hostpassword == hostDoc.hostpassword);
+        const validPassword = (req.body.hostpassword === hostDoc.hostpassword);
 
         if(!validPassword){
-            res.status(400).json("wrong username or password").end();
+            res.status(400);
+            throw "wrong usernamae or password"
         }
 
-        let token = await hostDoc.generateAuthToken();
+        let token = await hostDoc.generateAuthToken(); 
         // console.log(token);
         res.cookie("MAPGOdevHOST", token,
         {
@@ -56,9 +58,7 @@ router.post('/login', async(req,res)=>{
     }
     catch(err){
         // console.log(err);
-        if(userERR){res.status(401).json(err).end();}
-
-        else {res.status(500).json(err).end();}
+        res.json(err).end();
     }
 })
 

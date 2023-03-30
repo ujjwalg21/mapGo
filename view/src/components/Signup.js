@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 
@@ -12,16 +11,16 @@ const Signup = () => {
     confirmpassword: "",
   });
 
+  const [otp,setOtp]= useState("");
+
   //function handleInput: sets each value to a user key
   let key, value;
   const handleInputs = (event) => {
-    // console.log(event.target.name);
-    // console.log(event.target.value);
     key = event.target.name;
     value = event.target.value;
 
     setUser({ ...user, [key]: value }); //react hook
-    // console.log(user);
+    console.log(user);
   };
 
   const checkEmail = function () {
@@ -42,52 +41,114 @@ const Signup = () => {
     return false;
   };
 
-  // const str=JSON.stringify(user);
-  // console.log(str);
-
   //function called after submit button
 
   const navigate = useNavigate();
 
-  const submitForm = async (event) => {
+
+  
+
+
+
+
+
+
+
+
+
+  const submit = async (event) => {
     try {
       event.preventDefault();
 
-      const { username, email, password, confirmpassword } = user;
+      const { username, email} = user;
 
-      if (checkEmail() && checkPassword()) {
-        const res = await fetch("http://localhost:5000/api/user/register", {
-          method: "POST",
+      if (checkEmail()) {
+        const res = await fetch(`http://localhost:5000/api/user/verify-email/${username}/${email}`, {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            username: username,
-            iitkemail: email,
-            password: password,
-          }),
+          credentials:"include"
         });
 
-        // console.log("this is response");
-        // console.log(res);
-        // console.log("that was res")
 
-        if (res.status === 400) {
+        if (res.status === 401) {
           window.alert("username taken, try another one");
           console.log("username taken");
-        } else if (res.status === 200) {
-          window.alert("successful registration");
-          navigate("/signin");
-        } else if (res.status === 500) {
-          console.log("error in searching db");
-        } else {
-          console.log("unknown err");
+        } 
+        else if (res.status === 200) {
+          window.alert("OTP sent");
         }
+        else if (res.status === 500) {
+          console.log("error in searching db");
+        }
+
       }
     } catch (err) {
       console.log(err);
     }
   };
+
+
+
+  const submitForm = async (event) => {
+    try {
+      event.preventDefault();
+
+      const { username, email, password} = user;
+
+        const res = await fetch(`http://localhost:5000/api/user/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          
+          credentials:"include",
+          body: JSON.stringify({
+            "username": username,
+            "iitkemail":email,
+            "password": password,
+            "otp":otp
+          })
+
+        });
+
+        if (res.status === 400) {
+          window.alert("username taken, try another one");
+          console.log("username taken");
+        }
+        else if(res.status===401){
+          window.alert("did not generate otp");
+          console.log("otp not sent");
+        }
+        
+        else if (res.status === 200) {
+          window.alert("verified");
+          navigate("/signin");
+          
+        } else if (res.status === 500) {
+          console.log("error in searching db");
+        } else {
+          console.log("unknown err");
+        }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -163,13 +224,35 @@ const Signup = () => {
                         Confirm Password
                       </label>
                     </div>
+                    <div className="form-floating mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="otp"
+                        id="floatingOtp"
+                        placeholder="otp"
+                        value={otp}
+                        onChange={e=>setOtp(e.target.value)}
+                        autoComplete="off"
+                      />
+                      <label className="input" htmlFor="floatingInput">
+                        OTP
+                      </label>
+                    </div>
                   </form>
+                  <button
+                    className="text-uppercase button"
+                    onClick={submit}
+                    type="submit"
+                  >
+                    Send OTP
+                  </button>
                   <button
                     className="text-uppercase button"
                     onClick={submitForm}
                     type="submit"
                   >
-                    Sign Up
+                    Submit
                   </button>
                 </div>
               </div>

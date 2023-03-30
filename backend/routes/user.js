@@ -23,6 +23,15 @@ let transporter = nodemailer.createTransport({
 router.get('/verify-email/:username/:iitkemail', async(req,res)=>{
     try{
         //req.params username, iitkemail
+
+        //before otp, check if username taken
+        const userAlready = await User.findOne({username:req.params.username});
+
+        if(userAlready){
+            res.status(401);
+            throw "username taken";
+        }
+
         //generate OTP before sending register
         let otp = '';
         for(let i=0; i<=3; i++){
@@ -49,7 +58,7 @@ router.get('/verify-email/:username/:iitkemail', async(req,res)=>{
         res.status(200).json("email with otp sent successfully")
     }
     catch(err){
-        res.status(500).json(err);
+        res.json(err);
     }
 });
 
@@ -164,6 +173,15 @@ router.get('/showevents', authenticateUser , async(req,res)=>{
 router.get('/password-verify-email/:username/:iitkemail', async(req,res)=>{
     try{
         //req.params username, iitkemail
+
+        //before otp check if username and iitkemail are registered previously
+        const userAlready = await User.findOne({username: req.params.username, iitkemail: req.params.iitkemail});
+        if(!userAlready){
+            res.status(400);
+            throw "such user is not registered"
+        }
+
+
         //generate OTP before sending register
         let otp = '';
         for(let i=0; i<=3; i++){
@@ -236,6 +254,13 @@ router.post('/changepassword', async(req,res)=>{
 //OK
 router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
     try{
+        const userAlready = await User.findOne(
+            {username:req.rootUser.username}
+        )
+        if(userAlready.subscribed.includes(req.params.hostname)){
+            res.status(407);
+            throw "user already subscribed"
+        }
 
         const user = await User.findOneAndUpdate(
             {username: req.rootUser.username},
@@ -249,8 +274,8 @@ router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
             { $addToSet: { subscribers: req.rootUser.username }}
         )
         if(!host){
-            console.log("no such host");
-            return res.status(404).end();
+            res.status(404);
+            throw "no such host exists"
         }
 
         const hostEvents = await Event.find(
@@ -269,7 +294,7 @@ router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
         res.status(200).json("successfully subscribed"); 
     }
     catch(err){
-        console.log(err);
+        res.json(err);
     }
 });
 

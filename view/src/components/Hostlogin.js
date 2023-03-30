@@ -51,7 +51,6 @@ const Login = () => {
         }
     )
 
-        // res.cookie('MAPGOdev', "trialvalue");
 
       if(res.status === 400){
         //wrong username

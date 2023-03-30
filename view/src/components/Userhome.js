@@ -3,6 +3,46 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export const Userhome = () => {
+
+
+
+  const navigate = useNavigate();
+  const getUserPrivate = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/user/private", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (!res.status === 200) {
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (err) {
+      console.log(err);
+      navigate("/signin");
+    }
+  };
+  useEffect(() => {
+    getUserPrivate();
+  }, []);
+
+
+
+
+
+
+
+
+
+  
   const [hosts, setHosts] = useState([]);
 
   let data;
@@ -51,66 +91,7 @@ export const Userhome = () => {
               </li>
                 )
             })}
-            {/* <li className="list-item">
-                    <i className="list-item-icon fas fa-search"></i>
-                    <span className="list-item-text">Search</span>
-                </li>
-                <li className="list-item active">
-                    <i className="list-item-icon fas fa-stream"></i>
-                    <span className="list-item-text">Insights</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon fas fa-book"></i>
-                    <span className="list-item-text">Docs</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon fas fa-users"></i>
-                    <span className="list-item-text">Community</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon fas fa-toolbox"></i>
-                    <span className="list-item-text">Tools</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon fas fa-shopping-basket"></i>
-                    <span className="list-item-text">Market</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li>
-                <li className="list-item">
-                    <i className="list-item-icon far fa-question-circle"></i>
-                    <span className="list-item-text">Resources</span>
-                </li> */}
+            
           </ul>
         </div>
       </div>
