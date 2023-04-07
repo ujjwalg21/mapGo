@@ -66,7 +66,7 @@ const Login = () => {
           //valid creds successful login
           window.alert("login successful");
           // dispatch({type:"USER", payload:true})
-          navigate("/home");
+          navigate("/userhome");
         }
         
         if(res.status === 500){
