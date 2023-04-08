@@ -1,10 +1,10 @@
 import React, {useContext, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-// import { UserContext } from "../App";
+import { UserContext } from "../App";
 
 const Hostlogout =()=>{
 
-    // const {state,dispatch}= useContext(UserContext);
+    const {state,dispatch}= useContext(UserContext);
 
     const navigate= useNavigate();
 
@@ -18,7 +18,7 @@ const Hostlogout =()=>{
             },
             credentials:"include"
         }).then((res) => {
-            // dispatch({type:"USER", payload: false})
+            dispatch({type:"HOST", payload: null})
             navigate("/hostlogin");
             if(res.status !== 200){
                 const error=new Error(res.error);

@@ -18,7 +18,7 @@ const Logout =()=>{
             },
             credentials:"include"
         }).then((res) => {
-            // dispatch({type:"USER", payload: false})
+            dispatch({type:"USER", payload: null})
             navigate("/signin");
             if(res.status !== 200){
                 const error=new Error(res.error);

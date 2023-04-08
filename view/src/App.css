@@ -57,6 +57,7 @@
 
 html {
   /* background-image: radial-gradient(#024e5f, #051625, black); */
+  background-color: black;
   min-height: 100%;
   position: relative;
   background-attachment: fixed;
@@ -66,8 +67,13 @@ html {
   display: flex;
   text-decoration: none;
   color: #d4d0d0;
-  font-family: "Alegreya", serif;
-  font-size: 5vh;
+  /* font-family: "Alegreya", serif; */
+  /* font-size: 5vh; */
+  /* size: 3px; */
+  /* height: 5vh; */
+  margin: 10px 0px;
+  width: 25vh;
+  filter: invert();
   padding-left: 0px;
   font-weight: 1000;
 }
@@ -91,10 +97,16 @@ html {
   color: white;
   text-decoration: none;
   padding: 2vh;
+  margin: 5px;
 }
 .navbar-toggler {
-  color: white;
-  background-color: white;
+  /* color: white; */
+  filter: invert();
+  box-shadow: none;
+  background-color: transparent;
+}
+.navbar-toggler-icon {
+  margin-left: 0;
 }
 
 /* CONTACT CSS */
@@ -169,6 +181,14 @@ a {
   margin-top: 10px;
 }
 
+.eventbox {
+  position: relative;
+  margin: auto;
+  /* justify-content: center; */
+  display: list-item;
+  text-align: center;
+}
+
 /* MEDIA QUERY */
 @media (max-width: 1000px) {
   * {
@@ -182,12 +202,37 @@ a {
   }
   .navbar {
     height: fit-content;
+    padding: 0px;
   }
 
   .navbar-collapse {
-    background-color: #233565;
-    margin: -7px -12px;
+    padding: 6px;
+    background-color: #1a2749;
+    margin: 0px -12px;
+    /* height: 220px; */
   }
+ 
+
+  .navlink{
+    display: block;
+    padding: 0vh;
+    padding-left: 23px;
+    margin-bottom: 7px;
+  }
+
+  /* .eventbox{
+    display: list-item;
+    text-align: center;
+  } */
+  .mapgo{
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .navbar-toggler{
+    padding: 0px;
+  }
+  
+  
 }
 @media (min-width: 1000px) {
   .col-md-3 {
@@ -441,6 +486,7 @@ a {
   font-family: "Alegreya", serif;
 }
 
+
 .addEvent {
   background-color: #012e39;
   width: 50%;
@@ -475,12 +521,16 @@ a {
 .menu-bars {
   margin-left: 2rem;
   font-size: 2rem;
+  /* color: black; */
   background: none;
+  /* top:50vh; */
 }
 
 .nav-menu {
-  background-color: transparent;
-  width: fit-content;
+  background-color: rgb(0, 0, 0, 0.7);
+  /* opacity: 0.8; */
+  /* background */
+  min-width: fit-content;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -528,7 +578,6 @@ a {
   background-color: transparent;
   width: 100%;
   height: 80px;
-  margin-top: 57px;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -550,12 +599,44 @@ ul {
 }
 
 .menubox {
-  background-color: #013925;
+  background-color: #233565;
   color: white;
+  width: 28vh;
   border-radius: 10px;
   margin: 13px 10px;
-  padding: 8px 10px;
+  /* padding: 8px 10px; */
+  padding: 0px;
 }
+.accordion-button{
+  background-color: transparent;
+  color: white;
+  width: 28vh;
+  font-size: 30px;
+  font-family: "Alegreya", serif;
+  box-shadow: none;
+  border-radius: 5px;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #1a2749 ;
+  width: 28vh;
+  font-size: 30px;
+  list-style: none;
+  color: white;
+  box-shadow: none;
+}
+
+.search__input {
+  /* height: 30px; */
+  border-radius: 13px;
+  margin: 0px 10px;
+  padding: 10px;
+  width: 25vh;
+}
+.accordion-item{
+  border: none;
+}
+
 
 @media (max-width: 900px) {
   .navbar-toggle {
@@ -565,4 +646,8 @@ ul {
   .nav-menu {
     background-color: black;
   }
+
+  
+
+  
 }

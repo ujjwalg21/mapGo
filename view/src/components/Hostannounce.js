@@ -1,10 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useContext} from "react";
 // import { set } from 'mongoose';
+
+import { UserContext } from "../App";
 
 const Hostannounce = ({ addEvent }) => {
   const navigate = useNavigate();
+  const { state, dispatch } = useContext(UserContext);
 
   const getUserPrivate = async () => {
     try {
@@ -19,8 +22,11 @@ const Hostannounce = ({ addEvent }) => {
 
       const data = await res.json();
       console.log(data);
+      if(res.status===200){
+        dispatch({type:"HOST", payload:"host"});
 
-      if (!res.status === 200) {
+      }
+      else if (!res.status === 200) {
         const error = new Error(res.error);
         throw error;
       }

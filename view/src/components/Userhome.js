@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useContext} from "react";
 import Map, { Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import pin from './locp.svg';
+import { UserContext } from "../App";
 
 export const Userhome = () => {
-
+  const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
   const getUserPrivate = async () => {
     try {
@@ -21,8 +22,11 @@ export const Userhome = () => {
 
       const data = await res.json();
       console.log(data);
+      if(res.status===200){
+        dispatch({type:"USER", payload:"user"});
 
-      if (!res.status === 200) {
+      }
+      else if (!res.status === 200) {
         const error = new Error(res.error);
         throw error;
       }
@@ -163,7 +167,7 @@ export const Userhome = () => {
     maxBounds: [[80.21972179412843, 26.49669310356472], [80.24988999430397, 26.53040995882184]],
     logoPosition: 'bottom-right',
     testMode: true
-  }}
+  }} 
   mapboxAccessToken="pk.eyJ1Ijoicm9oYW5yMjEiLCJhIjoiY2xmMWMyZ2Q1MDZ6cTNzbnY4Y2FqYXFxMSJ9.Ppuy03i7T2TG4jcY8ldqpQ"
   style={{ width: '100vw', height: '100vh' }}
   mapStyle="mapbox://styles/mapbox/streets-v9"
@@ -189,7 +193,7 @@ export const Userhome = () => {
   ) : null
   }
 </Map>
-<button style={{top:"10px", right:"10px", position: "absolute"}}><a href="/navigation.html">DIRECTIONS</a></button>
+<button style={{bottom:"10px", right:"10px", position: "fixed"}}><a href="/navigation.html">DIRECTIONS</a></button>
 
 </div>
         </div>

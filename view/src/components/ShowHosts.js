@@ -1,22 +1,27 @@
-
 import React, { useState, useEffect } from "react";
 
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import * as MdIcons from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { IconContext } from "react-icons";
-import FontAwesomeIcon from "react-fontawesome"
+import NavDropdown from "react-bootstrap/NavDropdown";
+import FontAwesomeIcon from "react-fontawesome";
+import Accordion from "react-bootstrap/Accordion";
 
 const ShowHosts = () => {
   const [sidebar, setSidebar] = useState(false);
 
-  const showSidebar = () => setSidebar(!sidebar);
+  const showSidebar = () =>{
+    setSidebar(!sidebar);
+    let k= document.getElementById("open");
+    if(k.style.display==="none") k.style.display="block";
+    else k.style.display="none";
+  }
 
   let baseURL = "http://localhost:5000/api/user/subscribe/";
 
   const subscribe = (host) => {
-
     let url = baseURL + host.hostname;
 
     console.log("this is url");
@@ -80,19 +85,18 @@ const ShowHosts = () => {
     setSearchResults(resultsArray);
   };
 
-  
   return (
     // <main>{content}</main>
     <IconContext.Provider value={{ color: "#fff" }}>
       <div className="navbar1">
-        <Link to="#" className="menu-bars">
+        <Link to="#" className="menu-bars" id="open">
           <MdIcons.MdArrowForwardIos onClick={showSidebar} />
         </Link>
       </div>
       <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
         <ul className="nav-menu-items">
           <li className="navbar-toggle">
-            <Link to="#" className="menu-bars" onClick={showSidebar}>
+            <Link to="#" className="menu-bars" id="close" onClick={showSidebar}>
               <AiIcons.AiOutlineClose />
             </Link>
           </li>
@@ -103,19 +107,19 @@ const ShowHosts = () => {
                 className="search__input"
                 type="text"
                 id="search"
+                placeholder="Search Hosts"
                 onChange={handleSearchChange}
               />
-              <button className="search__button">
+              {/* <button className="search__button">
                 <FontAwesomeIcon icon="fa-sharp fa-solid fa-magnifying-glass" />
-              </button>
+              </button> */}
             </form>
           </header>
-          {searchResults.map((host, index) => {
-            
-            
-            return (
-              <>
-              <div className="menubox">
+          <Accordion defaultActiveKey={["0"]} alwaysOpen>
+            {searchResults.map((host, index) => {
+              return (
+                <>
+                  {/* <div className="menubox">
                 <h2>{host.hostname}</h2>
                 <p>{host.about}</p>
 
@@ -124,10 +128,28 @@ const ShowHosts = () => {
                 </button>
 
 
-                </div>
-              </>
-            );
-          })}
+                </div> */}
+
+                 
+                  <Accordion.Item eventKey={index} className="menubox">
+                    <Accordion.Header  >{host.hostname}</Accordion.Header>
+                    <Accordion.Body>
+                      <p>{host.about}</p>
+                      <button
+                        className="btn-success"
+                        id="btn"
+                        onClick={() => {
+                          subscribe(host);
+                        }}
+                      >
+                        Subscribe
+                      </button>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </>
+              );
+            })}
+          </Accordion>
         </ul>
       </nav>
     </IconContext.Provider>
