@@ -29,8 +29,20 @@ npm install
 cd view
 npm install
 ```
-### create .env file
-Following the .env.example file, fill in the required credentials.
+### create .env file in the backend directory
+<!-- Following the .env.example file, fill in the required credentials. -->
+
+In .env file, fill the required credentials as given below:
+```bash 
+PORT=5000
+DB_URL=""
+SECRET_KEY=
+
+SMTP_HOST = smtp.gmail.com
+SMTP_PORT= 587
+SMTP_MAIL = 
+SMTP_PASS = 
+```
 
 ### running the program
 ```bash
