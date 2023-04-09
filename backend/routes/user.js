@@ -309,8 +309,8 @@ router.get('/showhosts', authenticateUser, async(req,res)=>{
             console.log("no user exists");
             res.status(404).end();
         }
-        console.log("this is subscribed hosts")
-        console.log(doc.subscribed);
+        // console.log("this is subscribed hosts")
+        // console.log(doc.subscribed);
 
         const allHosts = [];
 

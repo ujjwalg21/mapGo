@@ -8,16 +8,17 @@ import { IconContext } from "react-icons";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import FontAwesomeIcon from "react-fontawesome";
 import Accordion from "react-bootstrap/Accordion";
+import $ from 'jquery';
 
 const ShowHosts = () => {
   const [sidebar, setSidebar] = useState(false);
 
-  const showSidebar = () =>{
+  const showSidebar = () => {
     setSidebar(!sidebar);
-    let k= document.getElementById("open");
-    if(k.style.display==="none") k.style.display="block";
-    else k.style.display="none";
-  }
+    let k = document.getElementById("open");
+    if (k.style.display === "none") k.style.display = "block";
+    else k.style.display = "none";
+  };
 
   let baseURL = "http://localhost:5000/api/user/subscribe/";
 
@@ -40,6 +41,11 @@ const ShowHosts = () => {
       .then((res) => {
         console.log(res.status);
         console.log(res);
+        // $(document).ready(function(){
+        //   $('#btn').load(' #btn');
+
+        // });
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -47,6 +53,7 @@ const ShowHosts = () => {
   };
 
   const [hosts, setHosts] = useState([]);
+  const [subHosts, setSubHosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
@@ -69,6 +76,36 @@ const ShowHosts = () => {
       .catch((err) => {
         console.log(err);
       });
+  }, []);
+  
+
+  let data;
+
+  const getHosts = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/user/showhosts", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      data = await res.json();
+      setSubHosts(data);
+
+      if (!res.status === 200) {
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getHosts();
   }, []);
 
   const handleSubmit = (e) => e.preventDefault();
@@ -117,6 +154,9 @@ const ShowHosts = () => {
           </header>
           <Accordion defaultActiveKey={["0"]} alwaysOpen>
             {searchResults.map((host, index) => {
+                let searchhost=null;
+                searchhost = subHosts.find((obj) => obj.hostname==host.hostname);
+                console.log(searchhost);
               return (
                 <>
                   {/* <div className="menubox">
@@ -130,20 +170,33 @@ const ShowHosts = () => {
 
                 </div> */}
 
-                 
-                  <Accordion.Item eventKey={index} className="menubox">
-                    <Accordion.Header  >{host.hostname}</Accordion.Header>
+                  <Accordion.Item eventKey={index} className="menubox" id="host">
+                    <Accordion.Header>{host.hostname}</Accordion.Header>
                     <Accordion.Body>
-                      <p>{host.about}</p>
-                      <button
-                        className="btn-success"
-                        id="btn"
-                        onClick={() => {
-                          subscribe(host);
-                        }}
-                      >
-                        Subscribe
-                      </button>
+                      <div className="about">ABOUT US</div>
+                      <p className="desc">{host.about}</p>
+                      {searchhost &&
+                          <button
+                            className="btn-exist"
+                            id="btn"
+                          >
+                            Subscribed
+                          </button>
+
+                        }
+                      {!searchhost &&
+                          <button
+                            className="btn-success"
+                            id="btn"
+                            onClick={() => {
+                              subscribe(host);
+                            }}
+                          >
+                            Subscribe
+                          </button>
+
+                        }
+                      
                     </Accordion.Body>
                   </Accordion.Item>
                 </>
