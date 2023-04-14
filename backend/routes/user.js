@@ -297,6 +297,35 @@ router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
         res.json(err);
     }
 });
+router.put('/unsubscribe/:hostname', authenticateUser , async(req,res)=>{
+    try{
+        const userAlready = await User.findOne(
+            {username:req.rootUser.username}
+        )
+        if(userAlready.subscribed.includes(req.params.hostname)){
+            // res.status(407);
+            const user = await User.findOneAndUpdate(
+                {username: req.rootUser.username},
+                { $pull: { subscribed: req.params.hostname }}
+            )
+            if(!user){return res.status(404).end();}
+            const host = await Host.findOneAndUpdate(
+                {hostname: req.params.hostname},
+                { $pull: { subscribers: req.rootUser.username }}
+            )
+            if(!host){
+                res.status(404);
+                throw "no such host exists"
+            }
+        }
+
+        
+        res.status(200).json("successfully unsubscribed"); 
+    }
+    catch(err){
+        res.json(err);
+    }
+});
 
 //OK
 router.get('/showhosts', authenticateUser, async(req,res)=>{

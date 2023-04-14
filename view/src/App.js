@@ -51,7 +51,6 @@ const App = () => {
       <UserContext.Provider value={{ state, dispatch }}>
         <Navbar />
 
-        {/* <Navhome/> */}
         <Routing />
       </UserContext.Provider>
     </>
