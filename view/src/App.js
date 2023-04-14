@@ -88,6 +88,7 @@ const App = ()=> {
       
         {/* <Navhome/> */}
         <Routing/>
+        <Hostannounce/> 
 
         
 

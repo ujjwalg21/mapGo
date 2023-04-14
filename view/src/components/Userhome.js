@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Magnus from "./Magnus";
 
 export const Userhome = () => {
 
@@ -76,6 +77,7 @@ export const Userhome = () => {
 
   return (
     <>
+      
       <div className="sidebar">
         <div className="sidebar-top">
           <i className="logo fab fa-sketch"></i>
@@ -94,7 +96,9 @@ export const Userhome = () => {
             
           </ul>
         </div>
+
       </div>
+      
     </>
   );
 };

@@ -32,18 +32,20 @@ const Navbar = () => {
 <div className="collapse navbar-collapse" id="navbarSupportedContent">
       
       <div className="navbar-nav meauto mb-2 mb-lg-0">
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink className="navlink" aria-current="page" to="/signin">Signin</NavLink>
-        </li>
+        </li> */}
         <li className="nav-item">
           <NavLink className="navlink " to="/signup">Signup</NavLink>
         </li>
-        
         <li className="nav-item">
-          <NavLink className="navlink" to="/hostprofile">Hostprofile</NavLink>
+          <NavLink className="navlink" to="/logout">User Login</NavLink>
         </li>
+        {/* <li className="nav-item">
+          <NavLink className="navlink" to="/hostprofile">Hostprofile</NavLink>
+        </li> */}
         <li className="nav-item">
-          <NavLink className="navlink" to="/hostlogin">HostLogin</NavLink>
+          <NavLink className="navlink" to="/hostlogin">Host Login</NavLink>
         </li>
         <li className="nav-item">
           <NavLink className="navlink" to="/userevents">UserEvents</NavLink>
@@ -57,12 +59,10 @@ const Navbar = () => {
         <li className="nav-item">
           <NavLink className="navlink" to="/contact">Contact</NavLink>
         </li>
-        <li className="nav-item">
-          <NavLink className="navlink" to="/logout">Logout</NavLink>
-        </li>
-        <li className="nav-item">
+        
+        {/* <li className="nav-item">
           <NavLink className="navlink" to="/hostlogout">Hostlogout</NavLink>
-        </li>
+        </li> */}
           
       </div>
       
@@ -77,7 +77,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bglight">
-  <div className="container-fluid">
+  <div className="container-fluid"><img src = "/whitter.png" style={{width:"3vw"}}/>
     <NavLink className="mapgo " to="/">mapGo</NavLink>
     {/* <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">

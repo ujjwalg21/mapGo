@@ -1,24 +1,29 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import './home.css'
 
 const Home = () =>{
     return (
         
        
         <div id='home'>
-            
-      
-     <h1 id='h' >Ready to GO!!</h1>
+{/*             
+     <h1 id='h' >Ready to GO!!</h1> */}
      <div id='part' >
-    <ul>
-      { <li>MapGO : map-event appliaction for IITK.It provides detailed maps of the IITK campus and surrounding areas, as well as navigation and route planning features. Also provide status, update for an event which is organised within iitk </li> }
-      <p></p>
-      <li> If you are a new user, you can sign up for an account. Use you IITK mail id while sign up </li>
-      <p></p>
-      <li> After sign_up you can log in using your IITK credentials, such as your username and password</li>
-      <p> </p>
-      <li> If you have any problem in sign up or  log in <NavLink to="/contact"> Contact_Us</NavLink></li>
-    </ul>
+     <div class="company">
+    <div class="img">
+      <img src="/logo-color.svg" alt="" />
+    </div>
+    <div class="company-info">
+      <span>CAMPUS<span class="our">FOR EVERYONE</span></span>
+      <p>
+        <b>MapGo</b> is an events management application integrated with maps API to keep track of time and location of all your upcoming events. Now, you can view all the upcoming activities in a single sight. This is power of the campus in the palm your hand (or screen of your computer if you may). We also have a navigation feature for all those still in the process of getting familiar with the campus.<br></br><br></br>
+        New User? Feel free to sign-up using your IITK credentials.<br></br><br></br>
+        Old User? You must be familiar with drill already. Login for all the fun.<br></br><br></br>
+        Adios Amigos!!!... Keep Exploring :)
+      </p>
+    </div>
+  </div>
 </div>
 
         </div>
