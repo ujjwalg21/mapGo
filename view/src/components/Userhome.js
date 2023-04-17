@@ -169,7 +169,7 @@ export const Userhome = () => {
               {hosts.map((elem) => {
                 return (
                   <li className="list-item">
-                    <i className="list-item-icon fas fa-search"></i>
+                    <img src = "" alt=""></img>
                     <span className="list-item-text">{elem.hostname}</span>
                   </li>
                 )

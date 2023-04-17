@@ -300,6 +300,7 @@ router.put('/subscribe/:hostname', authenticateUser , async(req,res)=>{
 });
 router.put('/unsubscribe/:hostname', authenticateUser , async(req,res)=>{
     try{
+        //removing host from user doc
         const userAlready = await User.findOne(
             {username:req.rootUser.username}
         )
@@ -310,6 +311,8 @@ router.put('/unsubscribe/:hostname', authenticateUser , async(req,res)=>{
                 { $pull: { subscribed: req.params.hostname }}
             )
             if(!user){return res.status(404).end();}
+
+            //removing user from host doc
             const host = await Host.findOneAndUpdate(
                 {hostname: req.params.hostname},
                 { $pull: { subscribers: req.rootUser.username }}
@@ -318,6 +321,21 @@ router.put('/unsubscribe/:hostname', authenticateUser , async(req,res)=>{
                 res.status(404);
                 throw "no such host exists"
             }
+
+            //removing host events from user schedule
+            const hostEvents = await Event.find(
+                {hostname:host.hostname}
+            );
+
+            for(let i=0; i< hostEvents.length; i++){
+
+                const user = await User.findOneAndUpdate(
+                    {username: req.rootUser.username},
+                    { $pull : { schedule: hostEvents[i]._id }}
+                );
+            }
+
+
         }
 
         
