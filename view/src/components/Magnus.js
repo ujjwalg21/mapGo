@@ -26,29 +26,6 @@ function Magnus() {
         Details: "This is another acoustic night. Come join us to relax and have fun!!"
       }
     ]
-  },
-  {
-    id: 2,
-    name: "CCD",
-    lng: 80.2342585835755,
-    lat: 26.51197348008671,
-    events: [
-      {
-        SNo : 1,
-        event: "Book Club Event",
-        Details: "A Book fair followed by a treasure hunt!!!... Dont miss out on the fun."
-      },
-      {
-        SNo : 2,
-        event: "MClub Night",
-        Details: "This is another acoustic night. Come join us to relax and have fun!!"
-      },
-      {
-        SNo : 3,
-        event: "MClub Night",
-        Details: "This is another acoustic night. Come join us to relax and have fun!!"
-      }
-    ]
   }];
 
   const mapper = marks.map((mark) =>
@@ -57,7 +34,8 @@ function Magnus() {
       onClick={e => {
         setSelectedEvent(mark);
       }}
-    ><img src={pin} width={25} /></button></Marker>
+      style={{backgroundColor:"transparent", backgroundImage:"none",background:"none",border:"none", outline:"none",borderWidth:"0px", borderColor:"white"}}
+    ><img src={pin} width={25} style={{backgroundColor:"transparent", backgroundImage:"none",background:"none",border:"none", borderWidth:"0px"}}/></button></Marker>
   );
 
   return (
