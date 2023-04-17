@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React, {useState,useContext} from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 const Login = () => {
+  const {state, dispatch}= useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -59,8 +61,9 @@ const Login = () => {
 
       if(res.status === 200){
         //valid creds successful login
+        dispatch({type:"HOST", payload:"host"});
         window.alert("login successful");
-        navigate("/hostprofile");
+        navigate("/hosthome");
       }
 
       if(res.status === 500){

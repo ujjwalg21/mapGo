@@ -237,6 +237,7 @@ router.post('/changepassword', async(req,res)=>{
                 throw "no user found"
             }
 
+            const otpDocDelete = await PasswordChange.findOneAndDelete({owner: req.body.username});
             res.status(200).json("password updated successfully").end();
         }
         else {
@@ -309,8 +310,8 @@ router.get('/showhosts', authenticateUser, async(req,res)=>{
             console.log("no user exists");
             res.status(404).end();
         }
-        console.log("this is subscribed hosts")
-        console.log(doc.subscribed);
+        // console.log("this is subscribed hosts")
+        // console.log(doc.subscribed);
 
         const allHosts = [];
 

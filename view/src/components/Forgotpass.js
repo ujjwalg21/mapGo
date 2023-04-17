@@ -42,7 +42,7 @@ const Forgotpass = () => {
     if (text === "@iitk.ac.in") {
       return true;
     }
-    window.alert("Invalid EmailId");
+    window.alert("Invalid EmailId! Please fill in username and email id linked to this account.");
     return false;
   };
 

@@ -1,11 +1,12 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import ShowHosts from './ShowHosts'
-
+import { UserContext } from "../App";
 
 
 const UserEvents = () => {
+  const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
   const getUserPrivate = async () => {
     try {
@@ -20,8 +21,11 @@ const UserEvents = () => {
 
       const data = await res.json();
       console.log(data);
+      if(res.status===200){
+        dispatch({type:"USER", payload:"user"});
 
-      if (!res.status === 200) {
+      }
+      else if (!res.status === 200) {
         const error = new Error(res.error);
         throw error;
       }
@@ -68,9 +72,7 @@ const UserEvents = () => {
     <>
     
 
-      
-    <div className="contain">
-      
+    <div className="eventbox">
     
 
       {Events.map((elem) => {
@@ -81,7 +83,9 @@ const UserEvents = () => {
                 className="img-responsive rounded-circle dp"
                 src="https://i.imgur.com/uppKNuF.jpg"
                 width="80"
-              />
+                />
+
+              <h5 className="mt-3 name">{elem.hostname}</h5>
               <h5 className="mt-3 name">{elem.eventname}</h5>
 
               <i className="fa-solid ">Date:{elem.startTime.slice(0, 10)}</i>

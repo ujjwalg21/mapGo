@@ -65,8 +65,8 @@ const Login = () => {
         if(res.status === 200){
           //valid creds successful login
           window.alert("login successful");
-          // dispatch({type:"USER", payload:true})
-          navigate("/home");
+          dispatch({type:"USER", payload:"user"})
+          navigate("/userhome");
         }
         
         if(res.status === 500){

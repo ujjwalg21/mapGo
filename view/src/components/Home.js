@@ -3,8 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './home.css'
 
 const Home = () =>{
-    return (
-        
+    return (        
        
         <div id='home'>
 {/*             
@@ -20,7 +19,7 @@ const Home = () =>{
         <b>MapGo</b> is an events management application integrated with maps API to keep track of time and location of all your upcoming events. Now, you can view all the upcoming activities in a single sight. This is power of the campus in the palm your hand (or screen of your computer if you may). We also have a navigation feature for all those still in the process of getting familiar with the campus.<br></br><br></br>
         New User? Feel free to sign-up using your IITK credentials.<br></br><br></br>
         Old User? You must be familiar with drill already. Login for all the fun.<br></br><br></br>
-        Adios Amigos!!!... Keep Exploring :)
+        Adios Amigos!!!... Keep Exploring 
       </p>
     </div>
   </div>
@@ -31,4 +30,4 @@ const Home = () =>{
     );
 }
 
-export default Home
+export default Home;

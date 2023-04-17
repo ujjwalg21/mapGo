@@ -29,7 +29,7 @@ const Signup = () => {
     if (text === "@iitk.ac.in") {
       return true;
     }
-    window.alert("Invalid EmailId");
+    window.alert("Kindly Enter IITK Email ID");
     return false;
   };
 
@@ -37,7 +37,7 @@ const Signup = () => {
     if (user.password === user.confirmpassword) {
       return true;
     }
-    window.alert("password and confirm password must be same");
+    window.alert("password and confirm password don't match");
     return false;
   };
 

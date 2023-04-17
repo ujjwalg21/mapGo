@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const {Server} = require("socket.io");
+const http = require('http')
 
 const userRouter = require('./routes/user');
 const hostRouter = require('./routes/host');
@@ -88,6 +90,26 @@ app.use("/api/host", hostRouter);
 app.use("/api/event", eventRouter);
 app.use("/api/schedule", scheduleRouter);
 
-app.listen(PORT, ()=>{
+const server = http.createServer(app);
+
+
+server.listen(PORT, ()=>{
     console.log(`server running on http://localhost:${PORT}`);
+});
+
+
+//create io server, allowed for cors from port 3000
+const io = new Server(server, {
+    cors:{
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    }
+});
+
+//listen for client connections
+io.on("connection", (socket)=>{
+    console.log(`socket connected ${socket.id}`)
+
+
+    //once socket connected
 });
