@@ -20,17 +20,10 @@ const ShowHosts = () => {
     else k.style.display = "none";
   };
 
-  let baseURL = "http://localhost:5000/api/user/subscribe/";
-
+  
   const subscribe = (host) => {
+    let baseURL = "http://localhost:5000/api/user/subscribe/";
     let url = baseURL + host.hostname;
-
-    console.log("this is url");
-    console.log(url);
-    // setUrl(URL);
-    console.log("subscribing");
-    console.log(URL);
-
     fetch(url, {
       method: "PUT",
       headers: {
@@ -39,13 +32,24 @@ const ShowHosts = () => {
       credentials: "include",
     })
       .then((res) => {
-        console.log(res.status);
-        console.log(res);
-        // $(document).ready(function(){
-        //   $('#btn').load(' #btn');
-
-        // });
-        window.location.reload();
+        window.location.reload(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const unsubscribe = (host) => {
+    let baseURL = "http://localhost:5000/api/user/unsubscribe/";
+    let url = baseURL + host.hostname;
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        window.location.reload(false);
       })
       .catch((err) => {
         console.log(err);
@@ -179,6 +183,9 @@ const ShowHosts = () => {
                           <button
                             className="btn-exist"
                             id="btn"
+                            onClick={() => {
+                              unsubscribe(host);
+                            }}
                           >
                             Subscribed
                           </button>

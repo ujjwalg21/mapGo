@@ -85,7 +85,6 @@ export const Events =()=>{
    
     return (
         <div>
-            
         {
              events.map(elem=>{
                  return(

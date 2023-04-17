@@ -96,6 +96,7 @@ const Signup = () => {
       event.preventDefault();
 
       const { username, email, password} = user;
+      if(checkPassword()){
 
         const res = await fetch(`http://localhost:5000/api/user/register`, {
           method: "POST",
@@ -132,6 +133,7 @@ const Signup = () => {
         } else {
           console.log("unknown err");
         }
+      }
     } catch (err) {
       console.log(err);
     }
