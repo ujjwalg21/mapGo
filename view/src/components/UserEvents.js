@@ -74,7 +74,6 @@ const UserEvents = () => {
     
 
     <div className="eventbox">
-      
     
 
       {Events.map((elem) => {

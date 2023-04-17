@@ -1,6 +1,8 @@
 import React, { createContext, useReducer } from "react";
 import { Routes, Route, Switch } from "react-router-dom";
 
+
+
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -16,6 +18,7 @@ import Logout from "./components/Logout";
 import Hostlogout from "./components/Hostlogout";
 import { Events } from "./components/Events";
 import Forgotpass from "./components/Forgotpass";
+import Error404 from "./components/Error404";
 
 import { initialState, reducer } from "./reducer/UseReducer";
 
@@ -39,9 +42,13 @@ const Routing = () => {
       <Route path="/logout" element={<Logout />} />
       <Route path="/hostlogout" element={<Hostlogout />} />
       <Route path="/forgotpass" element={<Forgotpass />} />
+      <Route path="*" element = {<Error404/>} />
+
     </Routes>
   );  
 };
+
+
 
 const App = () => {
   const [ state, dispatch] = useReducer(reducer, initialState);

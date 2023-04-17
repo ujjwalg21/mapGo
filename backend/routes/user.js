@@ -237,6 +237,7 @@ router.post('/changepassword', async(req,res)=>{
                 throw "no user found"
             }
 
+            const otpDocDelete = await PasswordChange.findOneAndDelete({owner: req.body.username});
             res.status(200).json("password updated successfully").end();
         }
         else {

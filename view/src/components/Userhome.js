@@ -39,59 +39,83 @@ export const Userhome = () => {
     getUserPrivate();
   }, []);
 
-
-  const [viewport, setViewport] = React.useState();
-
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [Events, setEvents] = useState([]);
 
-  const marks = [{
-    id: 1,
-    name: "OAT",
-    lng: 80.22990184208273,
-    lat: 26.505257661670083,
-    events: [
-      {
-        SNo : 1,
-        event: "Book Club Event",
-        Details: "A Book fair followed by a treasure hunt!!!... Dont miss out on the fun."
+  useEffect(() => {
+    fetch("http://localhost:5000/api/user/showevents", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      {
-        SNo : 2,
-        event: "MClub Night",
-        Details: "This is another acoustic night. Come join us to relax and have fun!!"
-      }
-    ]
-  },
-  {
-    id: 2,
-    name: "CCD",
-    lng: 80.2342585835755,
-    lat: 26.51197348008671,
-    events: [
-      {
-        SNo : 1,
-        event: "Book Club Event",
-        Details: "A Book fair followed by a treasure hunt!!!... Dont miss out on the fun."
-      },
-      {
-        SNo : 2,
-        event: "MClub Night",
-        Details: "This is another acoustic night. Come join us to relax and have fun!!"
-      },
-      {
-        SNo : 3,
-        event: "MClub Night",
-        Details: "This is another acoustic night. Come join us to relax and have fun!!"
-      }
-    ]
-  }];
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setEvents(data);
+        console.log("this is data");
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  
+  console.log("this is events");
+  console.log(Events);
 
-  const mapper = marks.map((mark) =>
-    <Marker id={mark.id} longitude={mark.lng} latitude={mark.lat}><button
+
+  // const marks = [{
+  //   id: 1,
+  //   name: "OAT",
+  //   lng: 80.22990184208273,
+  //   lat: 26.505257661670083,
+  //   events: [
+  //     {
+  //       SNo : 1,
+  //       event: "Book Club Event",
+  //       Details: "A Book fair followed by a treasure hunt!!!... Dont miss out on the fun."
+  //     },
+  //     {
+  //       SNo : 2,
+  //       event: "MClub Night",
+  //       Details: "This is another acoustic night. Come join us to relax and have fun!!"
+  //     }
+  //   ]
+  // },
+  // {
+  //   id: 2,
+  //   name: "CCD",
+  //   lng: 80.2342585835755,
+  //   lat: 26.51197348008671,
+  //   events: [
+  //     {
+  //       SNo : 1,
+  //       event: "Book Club Event",
+  //       Details: "A Book fair followed by a treasure hunt!!!... Dont miss out on the fun."
+  //     },
+  //     {
+  //       SNo : 2,
+  //       event: "MClub Night",
+  //       Details: "This is another acoustic night. Come join us to relax and have fun!!"
+  //     },
+  //     {
+  //       SNo : 3,
+  //       event: "MClub Night",
+  //       Details: "This is another acoustic night. Come join us to relax and have fun!!"
+  //     }
+  //   ]
+  // }];
+
+  const mapper = Events.map((mark) =>
+    <Marker id={mark._id} longitude={mark.longitude} latitude={mark.latitude}><button
       className="marker-btn"
       onClick={e => {
         setSelectedEvent(mark);
+        // console.log(mark);
       }}
+      style={{background:"none", border:"none"}}
     ><img src={pin} width={25} /></button></Marker>
   );
 
@@ -158,7 +182,7 @@ export const Userhome = () => {
         </div>
         <div className="child" style={{flex:"1", width:"85%"}}>
         <div>
-
+        
 <Map
   initialViewState={{
     longitude: 80.23289680480958,
@@ -174,29 +198,19 @@ export const Userhome = () => {
   style={{ width: '100vw', height: '100vh' }}
   mapStyle="mapbox://styles/mapbox/streets-v9"
   attributionControl={false}
-> 
+>
 <ScaleControl/> 
   <NavigationControl position='top-left' />
   {mapper}
-  {selectedEvent ? (
-    <Popup
-      longitude={selectedEvent.lng}
-      latitude={selectedEvent.lat}
-      onClose={() => setSelectedEvent(null)}
-    >
-      <div>
-        <h1>Events at {selectedEvent.name}</h1>
-        {selectedEvent.events.map(prog => (
-          <div><h3>{prog.event}</h3>{prog.Details}<br></br><br></br></div>
-        )
-        )}
-      </div>
-    </Popup>
+  
+</Map>
+<button style={{bottom:"10px", right:"10px", position: "fixed", textDecoration:"none", borderRadius:"10px", textAlign:"center", paddingRight:"10px"}}><a href="/navigation.html" style={{textDecoration:"none", color:"#111827", textAlign:"center"}}>click here for<br></br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIRECTIONS</b></a></button>
+{selectedEvent ? (
+    <div>
+      <button style={{top:"40vh" ,right:"10px", position: "fixed", borderRadius:"10px", textAlign:"left", paddingRight:"10px", width:"13%"}}><b>{selectedEvent.eventname} by {selectedEvent.hostname}</b><br></br>Date :&nbsp;{selectedEvent.startTime.slice(0, 10)}<br></br>Time :&nbsp;{selectedEvent.startTime.slice(11, 16)}<br></br>{selectedEvent.description}  </button>
+    </div>
   ) : null
   }
-</Map>
-<button style={{bottom:"10px", right:"10px", position: "fixed"}}><a href="/navigation.html">DIRECTIONS</a></button>
-
 </div>
         </div>
       </div>
