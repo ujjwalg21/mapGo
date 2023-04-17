@@ -40,7 +40,7 @@ const Routing = () => {
       <Route path="/hostlogout" element={<Hostlogout />} />
       <Route path="/forgotpass" element={<Forgotpass />} />
     </Routes>
-  );
+  );  
 };
 
 const App = () => {

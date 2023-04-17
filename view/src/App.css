@@ -352,7 +352,7 @@ a {
 }
 
 .sidebar {
-  width: 180px;
+  width: 20%;
   min-height: 100vh;
   height: fit-content;
   background-color: #111827;
@@ -388,6 +388,11 @@ a {
 .sidebar-bottom {
   justify-content: center;
   border: none;
+}
+#subs{
+  text-align: center;
+  justify-content: center;
+  margin: auto;
 }
 
 .logo {
@@ -511,9 +516,11 @@ a {
   background-color: #233565;
   height: 100%;
   display: flex;
-  justify-content: start;
+  position: fixed;
+  top:0;
+  /* justify-content: start; */
   background-color: transparent;
-  vertical-align: middle;
+  /* vertical-align: middle; */
   align-items: center;
   width: fit-content;
 }
@@ -525,7 +532,11 @@ a {
   background: none;
   /* top:50vh; */
 }
-
+.searchtext{
+  writing-mode:vertical-lr;
+  color: rgb(255, 255, 255);
+  margin: 0px;
+}
 .nav-menu {
   background-color: rgb(0, 0, 0, 0.7);
   /* opacity: 0.8; */
@@ -721,3 +732,4 @@ ul {
 
   
 }
+

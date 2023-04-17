@@ -137,15 +137,17 @@ export const Userhome = () => {
       <div className="userHome" style={{display:"flex"}}>
         <div className="sidebar" style={{flex:"1"}}>
           <div className="sidebar-top">
-            <i className="logo fab fa-sketch"></i>
-            <span className="brand">The App</span>
+          <i class="fa-solid fa-users" id="subs"></i>
+            <span className="brand">Subscribed Hosts</span>
           </div>
           <div className="sidebar-center">
             <ul className="list">
               {hosts.map((elem) => {
                 return (
                   <li className="list-item">
-                    <img src = "" alt=""></img>
+                    <i class="fa-solid fa-user" id="subs"></i>
+
+                    
                     <span className="list-item-text">{elem.hostname}</span>
                   </li>
                 )

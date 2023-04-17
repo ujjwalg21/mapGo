@@ -3,7 +3,9 @@ import { useEffect, useState ,useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import ShowHosts from './ShowHosts'
 import { UserContext } from "../App";
-
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Button from "react-bootstrap/Button";
 
 const UserEvents = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -66,7 +68,6 @@ const UserEvents = () => {
   
 
 
-    
 
   return (
     <>
@@ -86,12 +87,25 @@ const UserEvents = () => {
                 width="80"
                 />
 
-              <h5 className="mt-3 name">{elem.hostname}</h5>
+              <h6 className="mt-3 name">{elem.hostname}</h6>
               <h5 className="mt-3 name">{elem.eventname}</h5>
 
-              <i className="fa-solid ">Date:{elem.startTime.slice(0, 10)}</i>
-              <br />
-              <i className="fa-solid ">Time:{elem.startTime.slice(11, 16)}</i>
+              <i className=" ">From:{"  "}{elem.startTime.slice(0, 10)}</i>
+              <i className=" ">{"  "}{elem.startTime.slice(11, 16)}</i>
+              <br/>
+              <i className=" ">Till:{"  "}{elem.endTime.slice(0, 10)}</i>
+              <i className=" ">{"  "}{elem.endTime.slice(11, 16)}</i>
+
+              <OverlayTrigger trigger="hover" placement="right" overlay={
+                <Popover id="popover-basic">
+                
+                <Popover.Body>
+                  {elem.description}
+                </Popover.Body>
+                </Popover>
+              }>
+    <Button style={{background:"green"}} variant="success">Know More</Button>
+  </OverlayTrigger>
               <div className="mt-4"></div>
             </div>
           </div>

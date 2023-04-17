@@ -129,7 +129,9 @@ const ShowHosts = () => {
   return (
     // <main>{content}</main>
     <IconContext.Provider value={{ color: "#fff" }}>
+      
       <div className="navbar1">
+        <p className="searchtext">Search For More Hosts To Subscribe!</p>
         <Link to="#" className="menu-bars" id="open">
           <MdIcons.MdArrowForwardIos onClick={showSidebar} />
         </Link>
