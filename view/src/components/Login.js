@@ -83,11 +83,11 @@ const Login = () => {
   return (
     <>
       <body className="loginbody">
-        <div className="container loginbox">
-          <div className="row1">
+        <div className="container loginbox" style={{width: "60vh"}}>
+          <div className="row1" style={{width: "100%"}}>
             <div className="mx-auto">
               <div className="card border-0 shadow rounded-3 my-5 con2">
-                <p className="signin">Sign In</p>
+                <p className="signin">User Login</p>
                 <div className="card-body">
                   <br />
                   <br />

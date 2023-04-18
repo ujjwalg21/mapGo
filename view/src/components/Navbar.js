@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../App";
-import logo from "../images/mapGo.png"
+import logo from "../images/logo2.png"
 
 const Navbar = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -121,7 +121,7 @@ const Navbar = () => {
       <div className="container-fluid">
         <NavLink to="/">
           <img className="mapgo " src={logo}/>
-        </NavLink>
+        </NavLink><div style={{color:"white", fontSize:"4vh"}} >MapGo</div>
         {/* <li class="nav-item dropdown">
           <NavLink class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             
