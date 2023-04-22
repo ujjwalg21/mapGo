@@ -133,7 +133,7 @@ const ShowHosts = () => {
       <div className="navbar1">
         <p className="searchtext">Search For More Hosts To Subscribe!</p>
         <Link to="#" className="menu-bars" id="open">
-          <MdIcons.MdArrowForwardIos onClick={showSidebar} />
+          <MdIcons.MdArrowForwardIos onClick={showSidebar} style={{color:"black"}}/>
         </Link>
       </div>
       <nav className={sidebar ? "nav-menu active" : "nav-menu"}>

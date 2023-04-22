@@ -99,7 +99,7 @@ const HostHome = () => {
               <br/>
               <i className=" ">Till:{"  "}{elem.endTime.slice(0, 10)}</i>
               <i className=" ">{"  "}{elem.endTime.slice(11, 16)}</i>
-
+            <br></br><br></br>
               <OverlayTrigger trigger="hover" placement="right" overlay={
                 <Popover id="popover-basic">
                 

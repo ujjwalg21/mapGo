@@ -149,7 +149,7 @@ body {
 }
 
 .contentbox {
-  background-image: linear-gradient(#012a34, #040f1a, #03323d);
+  background-image: linear-gradient(#111827, #112c47, #233565);
   border: 0.5px solid #07eff2;
   transition: transform 0.5s;
 
@@ -157,7 +157,7 @@ body {
 }
 
 .contentbox:hover {
-  background-image: radial-gradient(#024e5f, #051625, black);
+  background-image: radial-gradient(#141a27, #112c47, #233565);
   transform: scale(1.03);
 }
 
@@ -690,14 +690,14 @@ ul {
 }
 .btn-success{
   border-radius: 7px;
-  color: white;
-  border: blue;
-  height: 35px;
-  display: list-item;
+  /* color: white;
+  border: blue; */
+  /* height: 35px; */
+  /* display: list-item; */
   position: relative;
   margin: auto;
-  width: 100px;
-  background-color: rgb(114, 27, 27);
+  /* width: 100px; */
+  /* background-color: rgb(114, 27, 27); */
   /* text-align: center; */
   /* position: relative; */
   /* justify-content: center; */

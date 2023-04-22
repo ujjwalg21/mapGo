@@ -5,6 +5,9 @@ import Map, { Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl
 import 'mapbox-gl/dist/mapbox-gl.css';
 import pin from './locp.svg';
 import { UserContext } from "../App";
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Button from "react-bootstrap/Button";
 
 export const Userhome = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -207,7 +210,49 @@ export const Userhome = () => {
 <button style={{bottom:"10px", right:"10px", position: "fixed", textDecoration:"none", borderRadius:"10px", textAlign:"center", paddingRight:"10px"}}><a href="/navigation.html" style={{textDecoration:"none", color:"#111827", textAlign:"center"}}>click here for<br></br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIRECTIONS</b></a></button>
 {selectedEvent ? (
     <div>
-      <button style={{top:"40vh" ,right:"10px", position: "fixed", borderRadius:"10px", textAlign:"left", paddingRight:"10px", width:"13%"}}><b>{selectedEvent.eventname} by {selectedEvent.hostname}</b><br></br>Date :&nbsp;{selectedEvent.startTime.slice(0, 10)}<br></br>Time :&nbsp;{selectedEvent.startTime.slice(11, 16)}<br></br>{selectedEvent.description}  </button>
+      <button style={{bottom:"20vh" ,right:"0px", top:"20vh", position: "fixed", padding:"0px", background: "transparent", border:"none"}}><div className=" p-3 text-center rounded box contentbox">
+                <img
+                  className="img-responsive rounded-circle dp"
+                  src="https://i.imgur.com/uppKNuF.jpg"
+                  width="80"
+                />
+
+                <h6 className="mt-3 name">{selectedEvent.hostname}</h6>
+                <h5 className="mt-3 name">{selectedEvent.eventname}</h5>
+
+                <i className=" ">
+                  From:{"  "}
+                  {selectedEvent.startTime.slice(0, 10)}
+                </i>
+                <i className=" ">
+                  {"  "}
+                  {selectedEvent.startTime.slice(11, 16)}
+                </i>
+                <br />
+                <i className=" ">
+                  Till:{"  "}
+                  {selectedEvent.endTime.slice(0, 10)}
+                </i>
+                <i className=" ">
+                  {"  "}
+                  {selectedEvent.endTime.slice(11, 16)}
+                </i>
+                <br></br><br></br>
+                <OverlayTrigger
+                  trigger="hover"
+                  placement="left"
+                  overlay={
+                    <Popover id="popover-basic">
+                      <Popover.Body>{selectedEvent.description}</Popover.Body>
+                    </Popover>
+                  }
+                >
+                  <Button variant="success">
+                    Know More
+                  </Button>
+                </OverlayTrigger>
+                <div className="mt-4"></div>
+              </div> </button>
     </div>
   ) : null
   }
